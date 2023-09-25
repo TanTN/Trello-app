@@ -9,5 +9,14 @@
     body {
         @apply p-0 m-0 box-border
     }
+    
 
+}
+@layer components {
+    h1 {
+        @apply text-[18px] font-Mooli font-bold !important
+    }
+    h2 {
+        @apply text-[16px] font-medium !important
+    }
 }

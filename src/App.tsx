@@ -12,7 +12,7 @@ import Header from "./layout/Header";
 function App() {
   const Layout = () => {
     return (
-      <div className="bg-bgColor text-textColor min-h-screen">
+      <div className="bg-bgColor font-Rubik text-textColor min-h-screen">
         <Header />
         <Outlet />
       </div>
@@ -29,7 +29,7 @@ function App() {
         element: <ListBoards />,
         },
         {
-        path: '/itemBoards',
+        path: '/itemBoards/:board',
         element: <ItemBoards />,
         
         }

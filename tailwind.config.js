@@ -1,16 +1,51 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-    content: [
-      "./index.html",
-      "./src/**/*.{js,ts,jsx,tsx}",
-    ],
+    content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+
     theme: {
+        fontFamily: {
+            Mooli: ["Mooli", "sans-serif"],
+            Rubik: ["Rubik", "sans-serif"]
+        },
         extend: {
             colors: {
-                "textColor": "#b6c2cf",
-                "bgColor": "#1d2125"
-          }
-      },
+                textColor: "#b6c2cf",
+                bgColor: "#1d2125",
+                textColorHeader: "#9FADCB",
+                "create-button-background": "#579dff",
+                "create-button-background-hovered": "#85b8ff",
+                "background-box": "#a1bdd914",
+                "background-box-hover" :"#a6c5e229"
+            },
+            animation: {
+                logo: "logo .8s ease infinite  ",
+                logo1: "logo1 .8s ease infinite  ",
+            },
+            keyframes: {
+                logo: {
+                    "0%": {
+                        height: "10px",
+                    },
+                    "50%": {
+                        height: "5px",
+                    },
+                    "100%": {
+                        height: "10px",
+                    },
+                },
+                logo1: {
+                    "0%": {
+                        height: "5px",
+                    },
+                    "50%": {
+                        height: "10px",
+                    },
+                    "100%": {
+                        height: "5px",
+                    },
+                },
+            },
+        },
     },
     plugins: [],
-  }
+};
