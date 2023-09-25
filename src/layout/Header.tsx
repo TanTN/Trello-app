@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import CreateWorkspace from "../component/createWorkspace";
 
 const Header = () => {
     return (
@@ -13,7 +14,11 @@ const Header = () => {
                     <h1>Trello</h1>
                 </div>
             </Link>
-            <button className="w-[62px] h-[32px] text-[#1d2125] font-semibold text-sm bg-create-button-background hover:bg-create-button-background-hovered rounded-[2px]">Create</button>
+            <CreateWorkspace>
+                <button className="w-[62px] h-[32px] text-[#1d2125] font-semibold text-sm bg-create-button-background hover:bg-create-button-background-hovered rounded-[2px]">
+                    Create
+                </button>
+            </CreateWorkspace>
         </div>
     );
 };

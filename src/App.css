@@ -1,22 +1,34 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind variants;
 @tailwind utilities;
 
-
 @layer base {
     body {
-        @apply p-0 m-0 box-border
+        @apply p-0 m-0 box-border;
     }
-    
-
-}
-@layer components {
     h1 {
-        @apply text-[18px] font-Mooli font-bold !important
+        @apply text-[18px] font-Mooli font-bold !important;
     }
     h2 {
-        @apply text-[16px] font-medium !important
+        @apply text-[16px] font-medium !important;
     }
+}
+@layer components {
+}
+
+.color1 {
+    background: linear-gradient(45deg, #fdc830, #f37335);
+}
+.color2 {
+    background: linear-gradient(45deg, #8a2387, #f27121);
+}
+.color3 {
+    background: linear-gradient(45deg, #fc5c7d, #6a82fb);
+}
+.color4 {
+    background: linear-gradient(45deg, #30e8bf, #ff8235);
+}
+.color5 {
+    background: linear-gradient(45deg, #ff00cc, #333399);
 }

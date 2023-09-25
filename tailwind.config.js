@@ -5,7 +5,7 @@ export default {
     theme: {
         fontFamily: {
             Mooli: ["Mooli", "sans-serif"],
-            Rubik: ["Rubik", "sans-serif"]
+            Rubik: ["Rubik", "sans-serif"],
         },
         extend: {
             colors: {
@@ -15,11 +15,13 @@ export default {
                 "create-button-background": "#579dff",
                 "create-button-background-hovered": "#85b8ff",
                 "background-box": "#a1bdd914",
-                "background-box-hover" :"#a6c5e229"
+                "background-box-hover": "#a6c5e229",
+                "star-color": "#FAE041",
             },
             animation: {
                 logo: "logo .8s ease infinite  ",
                 logo1: "logo1 .8s ease infinite  ",
+                starWorkspace: "starWorkspace 0.4s ease",
             },
             keyframes: {
                 logo: {
@@ -42,6 +44,14 @@ export default {
                     },
                     "100%": {
                         height: "5px",
+                    },
+                },
+                starWorkspace: {
+                    "0%": {
+                        transform: "translateX(200%)",
+                    },
+                    "100%": {
+                        transform: "translateX(0%)",
                     },
                 },
             },

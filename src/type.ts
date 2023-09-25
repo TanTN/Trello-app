@@ -1,25 +1,29 @@
 
 export interface Workspace {
-    id: number | string;
+    id:string;
     title: string 
-    img: string
+    isStar: boolean
+    backgroundImg?: string | null
+    backgroundColor?: string | null
 }
 
 export interface Column {
-    id: number | string;
-    workspaceId: number | string;
+    id:string;
+    workspaceId:string;
     title: string
 }
 
 export interface Task {
-    id: number | string;
-    columnId: number | string;
+    id:string;
+    columnId:string;
     title: string;
     content: string;
 }
+
 
 export interface InitialState {
     listWorkspace: Workspace[]
     columnContainers: Column[]
     taskContainers: Task[]
+    historyViewed: Workspace[]
 }
