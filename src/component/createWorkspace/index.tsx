@@ -8,9 +8,11 @@ import { RiMoreFill } from "react-icons/ri";
 import { listImages } from "../../assets";
 import { useDispatch } from "react-redux";
 import { addWorkspace } from "../../store/reducer";
+import { useNavigate } from "react-router-dom";
 
 const CreateWorkspace = ({ children }: { children: ReactElement }) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate()
 
     const [backgroundImg, setBackgroundImg] = useState<string | null>(
         listImages[0]
@@ -32,10 +34,11 @@ const CreateWorkspace = ({ children }: { children: ReactElement }) => {
 
     const createWorkspace = () => {
         if (title) {
+            const id = uuidv4()
             if (bgImgActiveIndex) {
                 dispatch(
                     addWorkspace({
-                        id: uuidv4(),
+                        id,
                         title,
                         isStar: false,
                         backgroundImg,
@@ -44,20 +47,21 @@ const CreateWorkspace = ({ children }: { children: ReactElement }) => {
             } else {
                 dispatch(
                     addWorkspace({
-                        id: uuidv4(),
+                        id,
                         title,
                         isStar: false,
                         backgroundColor,
                     })
                 );
             }
+            navigate(`itemBoard/${id}`)
         }
     };
     return (
         <Tippy
             placement="right-end"
             interactive
-            delay={[200, 0]}
+            delay={[100, 0]}
             trigger="mousedown"
             render={(attrs) => (
                 <div
@@ -69,6 +73,7 @@ const CreateWorkspace = ({ children }: { children: ReactElement }) => {
                         Create board
                     </p>
                     <div className="px-[12px] pb-[12px]">
+                        
                         {/* background active */}
                         <div
                             className={`${backgroundColor} mb-[8px] w-[200px] h-[128px] mx-auto bg-cover rounded-[4px]`}
@@ -160,10 +165,12 @@ const CreateWorkspace = ({ children }: { children: ReactElement }) => {
                             />
                         </div>
 
+                            {/* create workspace */}
                         <button
-                            className={`w-full bg-background-box hover:bg-background-box-hover py-[8px] mt-[15px] rounded-md ${
-                                !title &&
-                                "cursor-not-allowed hover:bg-background-box"
+                            className={`w-full bg-background-box py-[8px] mt-[15px] rounded-md ${
+                                title
+                                    ? "cursor-pointer hover:bg-background-box-hover"
+                                    : "cursor-not-allowed hover:bg-background-box"
                             }`}
                             onClick={createWorkspace}
                         >

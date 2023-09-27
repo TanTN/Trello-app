@@ -4,6 +4,9 @@
 @tailwind utilities;
 
 @layer base {
+    :root {
+        --height-leftbar: calc(100vh - 88px)
+    }
     body {
         @apply p-0 m-0 box-border;
     }
@@ -32,3 +35,4 @@
 .color5 {
     background: linear-gradient(45deg, #ff00cc, #333399);
 }
+
