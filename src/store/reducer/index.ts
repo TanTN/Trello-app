@@ -2,10 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 import { InitialState } from "../../type";
-import { Workspace } from "../../type";
+import { Board } from "../../type";
 
 const initialState: InitialState = {
-    listWorkspace: [
+    boardContainers: [
         {
             id: "1",
             title: "tan",
@@ -17,7 +17,7 @@ const initialState: InitialState = {
     columnContainers: [
         {
             id: "2",
-            workspaceId: "1",
+            boardId: "1",
             title: "todo",
         },
     ],
@@ -43,38 +43,45 @@ const workspace = createSlice({
     name: "workspace",
     initialState,
     reducers: {
-        addWorkspace: (state, action: PayloadAction<Workspace>) => {
-            state.listWorkspace.push(action.payload);
+        addBoard: (state, action: PayloadAction<Board>) => {
+            state.boardContainers.push(action.payload);
         },
         updateIsStar: (
             state,
-            action: PayloadAction<{ id: number | string; isStar: boolean }>
+            action: PayloadAction<{ id:string; isStar: boolean }>
         ) => {
-            const indexWorkspace = state.listWorkspace.findIndex(
-                (workspace) => action.payload.id === workspace.id
+            const indexBoard= state.boardContainers.findIndex(
+                (board) => action.payload.id === board.id
             );
-            state.listWorkspace[indexWorkspace].isStar = action.payload.isStar;
+            state.boardContainers[indexBoard].isStar = action.payload.isStar;
         },
         updateIsStarHistory: (
             state,
-            action: PayloadAction<{ id: number | string; isStar: boolean }>
+            action: PayloadAction<{ id:string; isStar: boolean }>
         ) => {
-            const indexWorkspace = state.historyViewed.findIndex(
-                (workspace) => action.payload.id === workspace.id
+            const indexBoard = state.historyViewed.findIndex(
+                (board) => action.payload.id === board.id
             );
-            if (indexWorkspace >= 0 ) {
-                state.historyViewed[indexWorkspace].isStar =
+            if (indexBoard >= 0 ) {
+                state.historyViewed[indexBoard].isStar =
                     action.payload.isStar;
             }
         },
-        addWorkspaceInHistory: (state, action: PayloadAction<Workspace>) => {
-            const newHistory = state.historyViewed.filter(workspace => workspace.id !== action.payload.id)
+        addBoardInHistory: (state, action: PayloadAction<Board>) => {
+
+            const newHistory = state.historyViewed.filter(board => board.id !== action.payload.id)
             newHistory.unshift(action.payload)
             state.historyViewed = newHistory
+        },
+        deleteBoard: (state, action: PayloadAction<string>) => { 
+            const newHistoryViewed = state.historyViewed.filter(board => board.id !== action.payload)
+            const newBoardContainer = state.boardContainers.filter(board => board.id !== action.payload)
+            state.boardContainers = newBoardContainer
+            state.historyViewed = newHistoryViewed
         }
     },
 });
 
-export const { addWorkspace, updateIsStar, updateIsStarHistory,addWorkspaceInHistory } =
+export const { addBoard, updateIsStar, updateIsStarHistory,addBoardInHistory,deleteBoard } =
     workspace.actions;
 export default workspace.reducer;

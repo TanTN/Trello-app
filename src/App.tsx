@@ -24,7 +24,7 @@ function App() {
                     element: <ListBoards />,
                 },
                 {
-                    path: "/itemBoard/:workspaceId",
+                    path: "/itemBoard/:boardId",
                     element: <ItemBoards />,
                 },
             ],

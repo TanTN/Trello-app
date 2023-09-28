@@ -5,22 +5,22 @@ import { v4 as uuidv4 } from "uuid";
 import { AiOutlineCheck } from "react-icons/ai";
 import { RiMoreFill } from "react-icons/ri";
 
-import { listImages } from "../../assets";
+import { listImages } from "../../../assets";
 import { useDispatch } from "react-redux";
-import { addWorkspace } from "../../store/reducer";
+import { addBoard, addBoardInHistory } from "../../../store/reducer";
 import { useNavigate } from "react-router-dom";
 
 const CreateWorkspace = ({ children }: { children: ReactElement }) => {
     const dispatch = useDispatch();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const [backgroundImg, setBackgroundImg] = useState<string | null>(
         listImages[0]
     );
     const [backgroundColor, setBackgroundColor] = useState<string | null>("");
-    const [bgImgActiveIndex, setBgImgActiveIndex] = useState<number | null>(0);
-    const [bgColorActiveIndex, setBgColorActiveIndex] = useState<number | null>(
-        null
+    const [bgImgActiveIndex, setBgImgActiveIndex] = useState<number>(0);
+    const [bgColorActiveIndex, setBgColorActiveIndex] = useState<number>(
+        -1
     );
     const [title, setTitle] = useState<string>("");
 
@@ -31,30 +31,38 @@ const CreateWorkspace = ({ children }: { children: ReactElement }) => {
         "color4",
         "color5",
     ];
-
+    
     const createWorkspace = () => {
         if (title) {
-            const id = uuidv4()
-            if (bgImgActiveIndex) {
+            const id = uuidv4();
+            if (bgColorActiveIndex >= 0) {
+                const newBoard = {
+                    id,
+                    title,
+                    isStar: false,
+                    backgroundColor,
+
+                }
                 dispatch(
-                    addWorkspace({
-                        id,
-                        title,
-                        isStar: false,
-                        backgroundImg,
-                    })
+                    addBoard(newBoard)
                 );
+                dispatch(addBoardInHistory(newBoard))
+
             } else {
+                const newBoard = {
+                    id,
+                    title,
+                    isStar: false,
+                    backgroundImg,
+
+                }
                 dispatch(
-                    addWorkspace({
-                        id,
-                        title,
-                        isStar: false,
-                        backgroundColor,
-                    })
+                    addBoard(newBoard)
                 );
+                dispatch(addBoardInHistory(newBoard))
+
             }
-            navigate(`itemBoard/${id}`)
+            navigate(`itemBoard/${id}`);
         }
     };
     return (
@@ -73,7 +81,6 @@ const CreateWorkspace = ({ children }: { children: ReactElement }) => {
                         Create board
                     </p>
                     <div className="px-[12px] pb-[12px]">
-                        
                         {/* background active */}
                         <div
                             className={`${backgroundColor} mb-[8px] w-[200px] h-[128px] mx-auto bg-cover rounded-[4px]`}
@@ -98,7 +105,7 @@ const CreateWorkspace = ({ children }: { children: ReactElement }) => {
                                     onClick={() => {
                                         setBackgroundImg(image);
                                         setBgImgActiveIndex(index);
-                                        setBgColorActiveIndex(null);
+                                        setBgColorActiveIndex(-1);
                                     }}
                                     className="relative w-full h-[40px]"
                                 >
@@ -125,7 +132,7 @@ const CreateWorkspace = ({ children }: { children: ReactElement }) => {
                                     onClick={() => {
                                         setBackgroundColor(color);
                                         setBgColorActiveIndex(index);
-                                        setBgImgActiveIndex(null);
+                                        setBgImgActiveIndex(-1);
                                     }}
                                 >
                                     {bgColorActiveIndex === index && (
@@ -165,7 +172,7 @@ const CreateWorkspace = ({ children }: { children: ReactElement }) => {
                             />
                         </div>
 
-                            {/* create workspace */}
+                        {/* create workspace */}
                         <button
                             className={`w-full bg-background-box py-[8px] mt-[15px] rounded-md ${
                                 title

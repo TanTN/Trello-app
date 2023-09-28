@@ -1,46 +1,52 @@
 import { AiOutlineStar, AiFillStar } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
-import { Workspace } from "../../type";
+import { Board } from "../../../type";
 import { useDispatch } from "react-redux";
-import { addWorkspaceInHistory, updateIsStar, updateIsStarHistory } from "../../store/reducer";
+import {
+    addBoardInHistory,
+    updateIsStar,
+    updateIsStarHistory,
+} from "../../../store/reducer";
 interface Prop {
-    workspace: Workspace;
+    board: Board;
     star?: boolean;
 }
 const WorkspaceItem = (prop: Prop) => {
-    const { workspace, star } = prop;
+    const { board, star } = prop;
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const handleStarWorkspace = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        e.stopPropagation()
-        dispatch(updateIsStar({ id: workspace.id, isStar: !workspace.isStar }));
+    const handleStarBoard = (
+        e: React.MouseEvent<HTMLDivElement, MouseEvent>
+    ) => {
+        e.stopPropagation();
+        dispatch(updateIsStar({ id: board.id, isStar: !board.isStar }));
         dispatch(
-            updateIsStarHistory({ id: workspace.id, isStar: !workspace.isStar })
+            updateIsStarHistory({ id: board.id, isStar: !board.isStar })
         );
     };
 
-    const detailWorkspace = () => {
-        navigate(`/itemBoard/${workspace.id}`);
-        dispatch(addWorkspaceInHistory(workspace))
+    const detailBoard = () => {
+        navigate(`/itemBoard/${board.id}`);
+        dispatch(addBoardInHistory(board));
     };
 
     return (
         <div
-            className={`${workspace.backgroundColor} group/item cursor-pointer h-[127px] w-full relative transition-all overflow-hidden rounded-md hover:brightness-[0.9]`}
-            onClick={detailWorkspace}
+            className={`${board.backgroundColor} group/item cursor-pointer h-[127px] w-full relative transition-all overflow-hidden rounded-md hover:brightness-[0.9]`}
+            onClick={detailBoard}
         >
-            {workspace.backgroundImg && (
-                <img src={workspace.backgroundImg} alt="imageWorkspace" />
+            {board.backgroundImg && (
+                <img src={board.backgroundImg} alt="image" />
             )}
             {/* title */}
             <p className="absolute top-[10px] left-[10px] text-[18px] font-medium text-white">
-                {workspace.title}
+                {board.title}
             </p>
 
             {/* visible trello workspace */}
-            {workspace.isStar && star && (
+            {board.isStar && star && (
                 <div className=" absolute bottom-[10px] left-[10px] text-[14px] leading-[14px] text-[#e4e4e4]">
                     Trello workspace
                 </div>
@@ -49,9 +55,9 @@ const WorkspaceItem = (prop: Prop) => {
             {/* star */}
             <div
                 className=" absolute bottom-[10px] right-[10px] hover:scale-[1.2]"
-                onClick={(e) => handleStarWorkspace(e)}
+                onClick={(e) => handleStarBoard(e)}
             >
-                {!workspace.isStar ? (
+                {!board.isStar ? (
                     <div className="group/edit invisible text-white text-base hover:text-star-color font-bold group-hover/item:visible group-hover/item:animate-starWorkspace">
                         <AiOutlineStar />
                     </div>

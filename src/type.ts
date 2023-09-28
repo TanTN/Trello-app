@@ -1,5 +1,5 @@
 
-export interface Workspace {
+export interface Board {
     id:string;
     title: string 
     isStar: boolean
@@ -9,7 +9,7 @@ export interface Workspace {
 
 export interface Column {
     id:string;
-    workspaceId:string;
+    boardId:string;
     title: string
 }
 
@@ -22,8 +22,8 @@ export interface Task {
 
 
 export interface InitialState {
-    listWorkspace: Workspace[]
+    boardContainers: Board[]
     columnContainers: Column[]
     taskContainers: Task[]
-    historyViewed: Workspace[]
+    historyViewed: Board[]
 }
