@@ -48,3 +48,9 @@
     background: linear-gradient(to top, #216e4e, #4bce97);
 }
 
+.shadow {
+    drop-shadow: 2px 2px 8px 17px #000;
+}
+
+
+

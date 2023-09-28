@@ -167,7 +167,7 @@ const CreateWorkspace = ({ children }: { children: ReactElement }) => {
                                 } text-textColor bg-[#222728] px-[10px] py-[6px] rounded-md`}
                                 autoFocus
                                 onChange={(e) =>
-                                    setTitle(e.target.value.trim())
+                                    setTitle(e.target.value.trimStart())
                                 }
                             />
                         </div>

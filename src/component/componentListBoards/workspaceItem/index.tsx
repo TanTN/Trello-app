@@ -8,6 +8,9 @@ import {
     updateIsStar,
     updateIsStarHistory,
 } from "../../../store/reducer";
+
+
+
 interface Prop {
     board: Board;
     star?: boolean;

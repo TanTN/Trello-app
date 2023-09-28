@@ -9,9 +9,9 @@ export default {
         },
         extend: {
             colors: {
-                textColor: "#b6c2cf",
-                bgColor: "#1d2125",
-                textColorHeader: "#9FADCB",
+                "textColor": "#b6c2cf",
+                "bgColor": "#1d2125",
+                "textColorHeader": "#9FADCB",
                 "create-button-background": "#579dff",
                 "create-button-background-hovered": "#85b8ff",
                 "background-box": "#a1bdd914",

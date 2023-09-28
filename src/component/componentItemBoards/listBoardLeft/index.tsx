@@ -133,10 +133,10 @@ const ListBoardLeft = (prop: Prop) => {
                             >
                                 <AiOutlineMore className="cursor-pointer" />
 
-                                {boardShowMore == board.id && (
+                                {boardShowMore == board.id && ( 
                                     <div
                                         ref={more}
-                                        className="absolute top-[140%] left-0 w-[304px] h-[92px] bg-[#282e33] rounded-[6px] border-[1px] border-[#464646]"
+                                        className="absolute z-[300] top-[140%] left-0 w-[304px] h-[92px] bg-[#282e33] rounded-[6px] border-[1px] border-[#464646]"
                                         onClick={handleCloseMore}
                                         onMouseEnter={() => setIdHoverBoardItem(null)}
 
