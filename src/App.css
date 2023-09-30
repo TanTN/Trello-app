@@ -53,4 +53,19 @@
 }
 
 
+.hiddenLineLong1 {
+    display: block;
+  	display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 1;  
+  	-webkit-box-orient: vertical;
+}
+.hiddenLineLong2 {
+    display: block;
+  	display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 2;  
+  	-webkit-box-orient: vertical;
+}
+
 

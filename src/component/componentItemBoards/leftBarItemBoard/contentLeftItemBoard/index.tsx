@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState  } from "react";
-import { Board } from "../../../type";
+import { Board } from "../../../../type";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { AiOutlineStar, AiFillStar, AiOutlineMore,AiOutlineClose } from "react-icons/ai";
@@ -10,13 +10,13 @@ import {
     updateIsStarHistory,
     updateIsStar,
     deleteBoard,
-} from "../../../store/reducer";
+} from "../../../../store/reducer";
 
 interface Prop {
     listBoard: Board[];
 }
 
-const ListBoardLeft = (prop: Prop) => {
+const ContentLeftItemBoard = (prop: Prop) => {
     const { listBoard } = prop;
     const { boardId } = useParams();
     const dispatch = useDispatch();
@@ -85,16 +85,16 @@ const ListBoardLeft = (prop: Prop) => {
         navigate(`/itemBoard/${id}`);
     };
     return (
-        <div>
+        <div className="w-full">
             <p className="px-[12px] py-[4px] text-sm font-medium h-[32px]">
                 Your boards
             </p>
 
-            <div>
+            <div className="">
                 {sortListBoard.map((board) => (
                     <div
                         key={board.id}
-                        className={`flex items-center justify-between ${
+                        className={`flex justify-between ${
                             boardId == board.id && "bg-[#636268]"
                             } group/item px-[12px] h-[32px] ${idHoverBoartItem == board.id && "bg-background-box-hover"} text-textColorHeader`}
                         onMouseEnter={() => setIdHoverBoardItem(board.id)}
@@ -102,7 +102,7 @@ const ListBoardLeft = (prop: Prop) => {
                     >
                         {/* background */}
                         <div
-                            className="flex flex-1 items-center h-full gap-2 cursor-pointer"
+                            className="flex flex-1 items-center gap-2 cursor-pointer"
                             onClick={() => changeWorkspace(board.id)}
                         >
                             <div
@@ -118,7 +118,7 @@ const ListBoardLeft = (prop: Prop) => {
                             </div>
 
                             {/* title */}
-                            <div className="text-sm">{board.title}</div>
+                            <div className={`hiddenLineLong1 ${idHoverBoartItem == board.id && "w-[155px]"} w-[175px] text-sm`}>{board.title}</div>
                         </div>
 
                         <div className="flex gap-1 items-center">
@@ -128,22 +128,26 @@ const ListBoardLeft = (prop: Prop) => {
                                     boardShowMore == board.id
                                         ? "flex"
                                         : "hidden"
-                                } group-hover/item:flex relative justify-center items-center w-[22px] h-[22px] hover:bg-background-box-hover rounded-[2px]`}
+                                    } group-hover/item:flex relative justify-center items-center w-[22px] h-[22px] hover:bg-background-box-hover rounded-[2px]
+                                    
+                                    `}
                                 onClick={() => isShowMore(board.id)}
+                                ref={more}
                             >
-                                <AiOutlineMore className="cursor-pointer" />
+                                <AiOutlineMore className="cursor-pointer"/>
 
                                 {boardShowMore == board.id && ( 
                                     <div
-                                        ref={more}
+                                        
                                         className="absolute z-[300] top-[140%] left-0 w-[304px] h-[92px] bg-[#282e33] rounded-[6px] border-[1px] border-[#464646]"
                                         onClick={handleCloseMore}
                                         onMouseEnter={() => setIdHoverBoardItem(null)}
-
                                     >
-                                        <div className="relative h-[48px] text-[14px]">
-                                            <div className="text-center leading-[48px]">{board.title}</div>
-                                            <div className="closeMore flex justify-center items-center absolute top-[11px] right-[10px] w-[26px] h-[26px] rounded-[7px] cursor-pointer hover:bg-background-box-hover text-[15px]"><AiOutlineClose /></div>
+                                        <div className="relative h-[48px] text-[14px] px-[40px]">
+                                            <div className="hiddenLineLong1 w-full text-center leading-[48px]">{board.title}</div>
+                                            <div className="closeMore flex justify-center items-center absolute top-[11px] right-[10px] w-[26px] h-[26px] rounded-[7px] cursor-pointer hover:bg-background-box-hover text-[15px]"
+                                            
+                                            ><AiOutlineClose /></div>
                                         </div>
                                         <div
                                             className="h-[36px] hover:bg-background-box-hover cursor-pointer rounded-[6px] py-[8px] px-[12px] text-[14px] mb-[8px] font-medium"
@@ -182,4 +186,4 @@ const ListBoardLeft = (prop: Prop) => {
     );
 };
 
-export default ListBoardLeft;
+export default ContentLeftItemBoard;

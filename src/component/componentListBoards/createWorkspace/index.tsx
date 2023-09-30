@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 import { addBoard, addBoardInHistory } from "../../../store/reducer";
 import { useNavigate } from "react-router-dom";
 
-const CreateWorkspace = ({ children }: { children: ReactElement }) => {
+const CreateWorkspace = ({ children, offsetButtonHeader }: { children: ReactElement;  offsetButtonHeader? :boolean}) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -65,16 +65,19 @@ const CreateWorkspace = ({ children }: { children: ReactElement }) => {
             navigate(`itemBoard/${id}`);
         }
     };
+
+    const place = offsetButtonHeader ? {placement: "bottom-end"} : {placement: "right-start"}
     return (
         <Tippy
-            placement="right-end"
             interactive
             delay={[100, 0]}
             trigger="mousedown"
+            zIndex={1000}
+            {...place}
             render={(attrs) => (
                 <div
                     className="w-[304px] bg-[#282e33] rounded-[8px]"
-                    tabIndex={1}
+                    tabIndex={-1}
                     {...attrs}
                 >
                     <p className="text-center h-[40px] leading-[40px]">
@@ -162,7 +165,7 @@ const CreateWorkspace = ({ children }: { children: ReactElement }) => {
                                 type="text"
                                 className={`w-full text-base outline-none border-[2px] ${
                                     title
-                                        ? "border-[#0189f8]"
+                                        ? "border-border-input-color"
                                         : "border-[#ff4517]"
                                 } text-textColor bg-[#222728] px-[10px] py-[6px] rounded-md`}
                                 autoFocus
@@ -186,6 +189,7 @@ const CreateWorkspace = ({ children }: { children: ReactElement }) => {
                     </div>
                 </div>
             )}
+            
         >
             {children}
         </Tippy>

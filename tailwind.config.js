@@ -17,6 +17,7 @@ export default {
                 "background-box": "#a1bdd914",
                 "background-box-hover": "#a6c5e229",
                 "star-color": "#FAE041",
+                "border-input-color": "#0189f8"
             },
             animation: {
                 logo: "logo .8s ease infinite  ",

@@ -44,7 +44,7 @@ const WorkspaceItem = (prop: Prop) => {
                 <img src={board.backgroundImg} alt="image" />
             )}
             {/* title */}
-            <p className="absolute top-[10px] left-[10px] text-[18px] font-medium text-white">
+            <p className="hiddenLineLong2 absolute top-[10px] left-[10px] right-[10px] text-[18px] leading-[18px] font-medium text-white">
                 {board.title}
             </p>
 

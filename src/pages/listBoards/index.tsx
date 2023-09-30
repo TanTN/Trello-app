@@ -91,7 +91,7 @@ const ListBoards = () => {
                                     board={board}
                                 />
                             ))}
-                            <CreateWorkspace>
+                            <CreateWorkspace >
                                 <div className="flex items-center h-[127px] w-full cursor-pointer justify-center rounded-md transition-all bg-background-box hover:bg-background-box-hover">
                                     Create new board
                                 </div>

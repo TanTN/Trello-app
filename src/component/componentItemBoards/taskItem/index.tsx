@@ -31,14 +31,14 @@ const TaskItem = (prop: Prop) => {
   };
   if (isDragging) {
     
-    return <div ref={setNodeRef} style={style} className='h-[36px] mb-[8px] bg-background-box rounded-[7px]'></div>
+    return <div ref={setNodeRef} style={style} className='min-h-[36px] p-[8px] mb-[8px] break-words bg-background-box rounded-[7px] overflow-x-hidden'>
+      <p className='invisible text-sm'>{task.title}</p>
+    </div>
 
   }
   return (
-    <div ref={setNodeRef} className={`${rotate && "rotate-[6deg] shadow bg-[#414141]"} rounded-[7px] h-[36px] mb-[8px] cursor-pointer text-sm`} {...attributes} {...listeners}>
-          <div className='h-[36px] leading-[36px] px-[10px] rounded-[7px] bg-background-box hover:bg-[#414141] '>
+    <div ref={setNodeRef} className={`bg-background-box hover:bg-[#414141] break-words min-h-[36px] p-[8px] overflow-x-hidden ${rotate && "rotate-[6deg] shadow bg-[#414141]"} rounded-[7px] mb-[8px] cursor-pointer text-sm`} {...attributes} {...listeners}>
               {task.title}
-          </div>
     </div>
   )
 }

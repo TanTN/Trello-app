@@ -136,7 +136,7 @@ const workspace = createSlice({
         addBoard: (state, action: PayloadAction<Board>) => {
             state.boardContainers.push(action.payload);
         },
-        addColumn: (state, action: PayloadAction<Column>) => { 
+        addColumn: (state, action: PayloadAction<Column>) => {
             state.columnContainers.push(action.payload);
         },
         addTask: (state, action: PayloadAction<Task>) => {
@@ -144,21 +144,21 @@ const workspace = createSlice({
         },
         updateIsStar: (
             state,
-            action: PayloadAction<{ id:string; isStar: boolean }>
+            action: PayloadAction<{ id: string; isStar: boolean }>
         ) => {
-            const indexBoard= state.boardContainers.findIndex(
+            const indexBoard = state.boardContainers.findIndex(
                 (board) => action.payload.id === board.id
             );
             state.boardContainers[indexBoard].isStar = action.payload.isStar;
         },
         updateIsStarHistory: (
             state,
-            action: PayloadAction<{ id:string; isStar: boolean }>
+            action: PayloadAction<{ id: string; isStar: boolean }>
         ) => {
             const indexBoard = state.historyViewed.findIndex(
                 (board) => action.payload.id === board.id
             );
-            if (indexBoard >= 0 ) {
+            if (indexBoard >= 0) {
                 state.historyViewed[indexBoard].isStar =
                     action.payload.isStar;
             }
@@ -169,7 +169,7 @@ const workspace = createSlice({
             newHistory.unshift(action.payload)
             state.historyViewed = newHistory
         },
-        deleteBoard: (state, action: PayloadAction<string>) => { 
+        deleteBoard: (state, action: PayloadAction<string>) => {
             const newHistoryViewed = state.historyViewed.filter(board => board.id !== action.payload)
             const newBoardContainer = state.boardContainers.filter(board => board.id !== action.payload)
             state.boardContainers = newBoardContainer
@@ -178,13 +178,25 @@ const workspace = createSlice({
         sortColumns: (state, action: PayloadAction<Column[]>) => {
             state.columnContainers = action.payload
         },
-        sortTasks: (state, action: PayloadAction<Task[]>) => { 
+        sortTasks: (state, action: PayloadAction<Task[]>) => {
             state.taskContainers = action.payload
+        },
+        changeTitleColumn: (state, action: PayloadAction<{ id: string, title: string }>) => {
+            const indexColumnChange = state.columnContainers.findIndex(column => column.id === action.payload.id)
+            if (indexColumnChange >= 0) {
+                state.columnContainers[indexColumnChange].title = action.payload.title
+            }
+        },
+        changeTitleBoard: (state, action: PayloadAction<{ id: string, title: string }>) => {
+            const indexBoardChange = state.boardContainers.findIndex(board => board.id === action.payload.id)
+            if (indexBoardChange >= 0) {
+                state.boardContainers[indexBoardChange].title = action.payload.title
+            }
         }
         
     },
 });
 
-export const { addBoard,addColumn,addTask, updateIsStar, updateIsStarHistory,addBoardInHistory,deleteBoard, sortColumns,sortTasks} =
+export const { addBoard,addColumn,addTask,changeTitleBoard, updateIsStar, updateIsStarHistory,addBoardInHistory,deleteBoard, sortColumns,sortTasks,changeTitleColumn} =
     workspace.actions;
 export default workspace.reducer;
