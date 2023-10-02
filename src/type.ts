@@ -20,10 +20,16 @@ export interface Task {
     content?: string;
 }
 
+export interface EditTask {
+    id: string | undefined;
+    content: string | undefined
+
+}
 
 export interface InitialState {
     boardContainers: Board[]
     columnContainers: Column[]
     taskContainers: Task[]
     historyViewed: Board[]
+    editTask:EditTask
 }

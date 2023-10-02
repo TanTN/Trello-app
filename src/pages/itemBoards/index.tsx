@@ -19,6 +19,7 @@ import TaskItem from "../../component/componentItemBoards/taskItem";
 import CreateColumn from "../../component/componentItemBoards/createColumn";
 import LefBarItemBoard from "../../component/componentItemBoards/leftBarItemBoard";
 import TitleBoard from "../../component/componentItemBoards/titleBoard";
+import PopupEditTask from "../../component/componentItemBoards/popupEditTask";
 
 const ItemBoards = () => {
     const { boardId } = useParams();
@@ -29,6 +30,10 @@ const ItemBoards = () => {
     const taskContainer = useSelector(
         (state: { workspace: InitialState }) => state.workspace.taskContainers
     );
+    const idTaskEdit = useSelector(
+        (state: { workspace: InitialState }) => state.workspace.editTask.id
+    )
+    console.log(idTaskEdit)
 
     const [activeColumn, setActiveColumn] = useState<Column | null>(null);
     const [activeTask, setActiveTask] = useState<Task | null>(null);
@@ -38,6 +43,7 @@ const ItemBoards = () => {
     const listColumns = useSelector(
         (state: { workspace: InitialState }) => state.workspace.columnContainers
     );
+
 
 
     const listColumnCurrent = listColumns.filter(
@@ -199,6 +205,8 @@ const ItemBoards = () => {
                         className="fixed right-0 left-0 bottom-0 top-0 z-[-100] w-full h-full object-cover"
                     />
                 )}
+                {idTaskEdit && <PopupEditTask />}
+                
             </div>
         </div>
     );

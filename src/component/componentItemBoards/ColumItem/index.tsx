@@ -170,8 +170,9 @@ const ColumnItem = (prop: Prop) => {
                         autoFocus
                         onChange={(e) => setTitleColumn(e.target.value.trimStart())}
                         onKeyDown={(e) => {
-                            if (e.key === "Enter") {
+                            if (e.key == "Enter") {
                                 handleChangeTitleColumn()
+                                setIsEditTitleColumn(false)
                             }
                         }}
                         onBlur={() => {

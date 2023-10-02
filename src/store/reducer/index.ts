@@ -5,129 +5,15 @@ import { Column, InitialState, Task } from "../../type";
 import { Board } from "../../type";
 
 const initialState: InitialState = {
-    boardContainers: [
-        // {
-        //     id: "1",
-        //     title: "tan",
-        //     isStar: false,
-        //     backgroundImg:
-        //         "https://th.bing.com/th/id/OIP.80fmzqoZiy1U-L7ngTEhsgHaEK?w=284&h=180&c=7&r=0&o=5&pid=1.7",
-        // },
-    ],
-    columnContainers: [
-        // {
-        //     id: "1",
-        //     boardId: "1",
-        //     title: "todo",
-        // },
-        // {
-        //     id: "2",
-        //     boardId: "1",
-        //     title: "todo",
-        // },
-    ],
-    taskContainers: [
-        // {
-        //     id: "17",
-        //     columnId: "1",
-        //     title: "ngay 1",
-        //     content: "hom nay phai lam gi",
-        // },
-        // {
-        //     id: "18",
-        //     columnId: "1",
-        //     title: "ngay 2",
-        //     content: "hom nay phai lam gi",
-        // },
-        // {
-        //     id: "3",
-        //     columnId: "1",
-        //     title: "ngay 3",
-        //     content: "hom nay phai lam gi",
-        // },
-        // {
-        //     id: "4",
-        //     columnId: "1",
-        //     title: "ngay 4",
-        //     content: "hom nay phai lam gi",
-        // },
-        // {
-        //     id: "5",
-        //     columnId: "1",
-        //     title: "ngay 5",
-        //     content: "hom nay phai lam gi",
-        // },
-        // {
-        //     id: "6",
-        //     columnId: "2",
-        //     title: "ngay 6",
-        //     content: "hom nay phai lam gi",
-        // },
-        // {
-        //     id: "7",
-        //     columnId: "2",
-        //     title: "ngay 7",
-        //     content: "hom nay phai lam gi",
-        // },
-        // {
-        //     id: "8",
-        //     columnId: "2",
-        //     title: "ngay 8",
-        //     content: "hom nay phai lam gi",
-        // },
-        // {
-        //     id: "9",
-        //     columnId: "2",
-        //     title: "ngay 9",
-        //     content: "hom nay phai lam gi",
-        // },
-        // {
-        //     id: "10",
-        //     columnId: "2",
-        //     title: "ngay 10",
-        //     content: "hom nay phai lam gi",
-        // },
-        // {
-        //     id: "11",
-        //     columnId: "2",
-        //     title: "ngay 11",
-        //     content: "hom nay phai lam gi",
-        // },
-        // {
-        //     id: "12",
-        //     columnId: "2",
-        //     title: "ngay 12",
-        //     content: "hom nay phai lam gi",
-        // },
-        // {
-        //     id: "13",
-        //     columnId: "2",
-        //     title: "ngay 13",
-        //     content: "hom nay phai lam gi",
-        // },
-        // {
-        //     id: "14",
-        //     columnId: "2",
-        //     title: "ngay 14",
-        //     content: "hom nay phai lam gi",
-        // },
-        // {
-        //     id: "15",
-        //     columnId: "2",
-        //     title: "ngay 15",
-        //     content: "hom nay phai lam gi",
-        // },
-        
-    ],
-    historyViewed: [
-        // {
-        //     id: "1",
-        //     title: "tan",
-        //     isStar: false,
-        //     backgroundImg:
-        //         "https://th.bing.com/th/id/OIP.80fmzqoZiy1U-L7ngTEhsgHaEK?w=284&h=180&c=7&r=0&o=5&pid=1.7",
-        // },
-    ],
+    boardContainers: [],
+    columnContainers: [],
+    taskContainers: [],
+    historyViewed: [],
+    editTask: {
+        id: "",
+        content: "",
+
+    }
 };
 const workspace = createSlice({
     name: "workspace",
@@ -159,44 +45,96 @@ const workspace = createSlice({
                 (board) => action.payload.id === board.id
             );
             if (indexBoard >= 0) {
-                state.historyViewed[indexBoard].isStar =
-                    action.payload.isStar;
+                state.historyViewed[indexBoard].isStar = action.payload.isStar;
             }
         },
         addBoardInHistory: (state, action: PayloadAction<Board>) => {
-
-            const newHistory = state.historyViewed.filter(board => board.id !== action.payload.id)
-            newHistory.unshift(action.payload)
-            state.historyViewed = newHistory
+            const newHistory = state.historyViewed.filter(
+                (board) => board.id !== action.payload.id
+            );
+            newHistory.unshift(action.payload);
+            state.historyViewed = newHistory;
         },
         deleteBoard: (state, action: PayloadAction<string>) => {
-            const newHistoryViewed = state.historyViewed.filter(board => board.id !== action.payload)
-            const newBoardContainer = state.boardContainers.filter(board => board.id !== action.payload)
-            state.boardContainers = newBoardContainer
-            state.historyViewed = newHistoryViewed
+            const newHistoryViewed = state.historyViewed.filter(
+                (board) => board.id !== action.payload
+            );
+            const newBoardContainer = state.boardContainers.filter(
+                (board) => board.id !== action.payload
+            );
+            state.boardContainers = newBoardContainer;
+            state.historyViewed = newHistoryViewed;
         },
         sortColumns: (state, action: PayloadAction<Column[]>) => {
-            state.columnContainers = action.payload
+            state.columnContainers = action.payload;
         },
         sortTasks: (state, action: PayloadAction<Task[]>) => {
-            state.taskContainers = action.payload
+            state.taskContainers = action.payload;
         },
-        changeTitleColumn: (state, action: PayloadAction<{ id: string, title: string }>) => {
-            const indexColumnChange = state.columnContainers.findIndex(column => column.id === action.payload.id)
+        changeTitleColumn: (
+            state,
+            action: PayloadAction<{ id: string; title: string }>
+        ) => {
+            const indexColumnChange = state.columnContainers.findIndex(
+                (column) => column.id === action.payload.id
+            );
             if (indexColumnChange >= 0) {
-                state.columnContainers[indexColumnChange].title = action.payload.title
+                state.columnContainers[indexColumnChange].title =
+                    action.payload.title;
             }
         },
-        changeTitleBoard: (state, action: PayloadAction<{ id: string, title: string }>) => {
-            const indexBoardChange = state.boardContainers.findIndex(board => board.id === action.payload.id)
+        changeTitleBoard: (
+            state,
+            action: PayloadAction<{ id: string; title: string }>
+        ) => {
+            const indexBoardChange = state.boardContainers.findIndex(
+                (board) => board.id === action.payload.id
+            );
             if (indexBoardChange >= 0) {
-                state.boardContainers[indexBoardChange].title = action.payload.title
+                state.boardContainers[indexBoardChange].title =
+                    action.payload.title;
             }
-        }
+        },
+        changeTitleTask: (
+            state,
+            action: PayloadAction<{ id: string; title: string }>
+        ) => {
+            const indexTaskChange = state.taskContainers.findIndex(
+                (board) => board.id === action.payload.id
+            );
+            if (indexTaskChange >= 0) {
+                state.taskContainers[indexTaskChange].title =
+                    action.payload.title;
+            }
+        },
+        editContentTask: (state, action: PayloadAction<{ id: string, content: string | undefined}>) => {
+            const indexTask = state.taskContainers.findIndex(task => task.id === action.payload.id)
+            if (indexTask >= 0) { 
+                state.taskContainers[indexTask].content = action.payload.content;
+            }
+        },
+        setIdTaskEdit: (state, action: PayloadAction<string | undefined >) => {
+            state.editTask.id = action.payload
+        },
         
+
     },
 });
 
-export const { addBoard,addColumn,addTask,changeTitleBoard, updateIsStar, updateIsStarHistory,addBoardInHistory,deleteBoard, sortColumns,sortTasks,changeTitleColumn} =
-    workspace.actions;
+export const {
+    addBoard,
+    addColumn,
+    addTask,
+    changeTitleBoard,
+    updateIsStar,
+    updateIsStarHistory,
+    addBoardInHistory,
+    deleteBoard,
+    sortColumns,
+    sortTasks,
+    changeTitleColumn,
+    editContentTask,
+    setIdTaskEdit,
+    changeTitleTask
+} = workspace.actions;
 export default workspace.reducer;

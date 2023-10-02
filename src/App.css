@@ -1,11 +1,11 @@
 @tailwind base;
 @tailwind components;
-@tailwind variants;
+
 @tailwind utilities;
 
 @layer base {
     :root {
-        --height-leftbar: calc(100vh - 88px)
+        --height-leftbar: calc(100vh - 88px);
     }
     body {
         @apply p-0 m-0 box-border;
@@ -20,52 +20,56 @@
 @layer components {
 }
 
+@layer utilities {
+    /*color background*/
 
+    .color1 {
+        background: linear-gradient(45deg, #fdc830, #f37335);
+    }
+    .color2 {
+        background: linear-gradient(45deg, #8a2387, #f27121);
+    }
+    .color3 {
+        background: linear-gradient(45deg, #fc5c7d, #6a82fb);
+    }
+    .color4 {
+        background: linear-gradient(45deg, #30e8bf, #ff8235);
+    }
+    .color5 {
+        background: linear-gradient(45deg, #ff00cc, #333399);
+    }
 
-.color1 {
-    background: linear-gradient(45deg, #fdc830, #f37335);
+    /*color background name lefbar item board*/
+    .backgroundColorName {
+        background: linear-gradient(to top, #216e4e, #4bce97);
+    }
+
+    .shadow {
+        drop-shadow: 2px 2px 8px 17px #000;
+    }
+
+    /*custom long line word*/
+    .hiddenLineLong1 {
+        display: block;
+        display: -webkit-box;
+        overflow: hidden;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+    }
+    .hiddenLineLong2 {
+        display: block;
+        display: -webkit-box;
+        overflow: hidden;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
     
 }
-.color2 {
-    background: linear-gradient(45deg, #8a2387, #f27121);
-    
+/*custom Tiny texterea */
+.tox-statusbar__branding {
+        display: none !important;
+    }
+.tox.tox-tinymce {
+    background: #22272b !important;
 }
-.color3 {
-    background: linear-gradient(45deg, #fc5c7d, #6a82fb);
-    
-}
-.color4 {
-    background: linear-gradient(45deg, #30e8bf, #ff8235);
-    
-}
-.color5 {
-    background: linear-gradient(45deg, #ff00cc, #333399);
-    
-}
-
-
-.backgroundColorName { 
-    background: linear-gradient(to top, #216e4e, #4bce97);
-}
-
-.shadow {
-    drop-shadow: 2px 2px 8px 17px #000;
-}
-
-
-.hiddenLineLong1 {
-    display: block;
-  	display: -webkit-box;
-    overflow: hidden;
-    -webkit-line-clamp: 1;  
-  	-webkit-box-orient: vertical;
-}
-.hiddenLineLong2 {
-    display: block;
-  	display: -webkit-box;
-    overflow: hidden;
-    -webkit-line-clamp: 2;  
-  	-webkit-box-orient: vertical;
-}
-
-

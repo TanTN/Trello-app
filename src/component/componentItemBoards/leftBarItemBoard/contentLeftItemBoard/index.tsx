@@ -118,7 +118,7 @@ const ContentLeftItemBoard = (prop: Prop) => {
                             </div>
 
                             {/* title */}
-                            <div className={`hiddenLineLong1 ${idHoverBoartItem == board.id && "w-[155px]"} w-[175px] text-sm`}>{board.title}</div>
+                            <div className={`hiddenLineLong1 ${idHoverBoartItem == board.id ? "w-[148px]" : "w-[175px]"} text-sm`}>{board.title}</div>
                         </div>
 
                         <div className="flex gap-1 items-center">
@@ -128,13 +128,13 @@ const ContentLeftItemBoard = (prop: Prop) => {
                                     boardShowMore == board.id
                                         ? "flex"
                                         : "hidden"
-                                    } group-hover/item:flex relative justify-center items-center w-[22px] h-[22px] hover:bg-background-box-hover rounded-[2px]
+                                    } cursor-pointer group-hover/item:flex relative justify-center items-center w-[22px] h-[22px] hover:bg-background-box-hover rounded-[2px]
                                     
                                     `}
                                 onClick={() => isShowMore(board.id)}
                                 ref={more}
                             >
-                                <AiOutlineMore className="cursor-pointer"/>
+                                <AiOutlineMore />
 
                                 {boardShowMore == board.id && ( 
                                     <div
