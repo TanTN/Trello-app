@@ -151,7 +151,7 @@ const ColumnItem = (prop: Prop) => {
             ref={setNodeRef}
             className={`${
                 rotate && "rotate-[6deg]"
-            } w-[272px] bg-bgColor rounded-[10px]`}
+            } w-[272px] max-h-[770px] bg-bgColor rounded-[10px] overflow-y-auto`}
             style={style}
         >
             {!isEditTitleColumn ? <p
@@ -182,7 +182,7 @@ const ColumnItem = (prop: Prop) => {
                     />
                 </div>
             }
-            <div className="px-[10px] max-h-[721px] overflow-y-auto">
+            <div className="px-[10px]">
                 <SortableContext items={listTaskId}>
                     {taskContainerCurrent.map((task) => (
                         <TaskItem key={task.id} task={task} />

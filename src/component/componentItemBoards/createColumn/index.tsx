@@ -42,11 +42,11 @@ const CreateColumn = (prop: Prop) => {
         }
     };
     return (
-        <div className="transition-all relative mt-[10px] w-[272px] h-[48px] mr-[10px]">
+        <div className="transition-all relative mt-[15px] w-[272px] h-[48px] mr-[10px]">
             <div
                 className={`${
                     isShowCreateColumn ? "opacity-0" : "opacity-100"
-                } flex items-center w-full h-full bg-[#ffffff42] rounded-[8px] gap-1 pl-[20px] cursor-pointer text-white text-sm hover:bg-[#70707070]`}
+                } flex items-center w-[272px] h-full bg-[#ffffff42] rounded-[8px] gap-1 pl-[20px] cursor-pointer text-white text-sm hover:bg-[#70707070]`}
                 onClick={() => setIsShowCreateColumn(true)}
             >
                 <AiOutlinePlus />

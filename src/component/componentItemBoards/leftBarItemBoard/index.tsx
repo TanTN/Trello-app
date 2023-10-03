@@ -5,13 +5,16 @@ import ContentLeftItemBoard from './contentLeftItemBoard';
 
 interface Prop {
     listBoard: Board[]
+    showLeft: (isShowLeft: boolean) => void
 }
 const LefBarItemBoard = (prop: Prop) => {
-    const {listBoard} = prop
+    const {listBoard,showLeft} = prop
     const [isShowListBoard, setIsShowListBoard] = useState<boolean>(false);
     const showListBoard = () => {
         setIsShowListBoard(!isShowListBoard);
+        showLeft(!isShowListBoard)
     };
+
   return (
       <>
           <nav

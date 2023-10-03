@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Board, Column, InitialState, Task } from "../../type";
@@ -33,11 +33,11 @@ const ItemBoards = () => {
     const idTaskEdit = useSelector(
         (state: { workspace: InitialState }) => state.workspace.editTask.id
     )
-    console.log(idTaskEdit)
 
     const [activeColumn, setActiveColumn] = useState<Column | null>(null);
     const [activeTask, setActiveTask] = useState<Task | null>(null);
     const [idColumnAddCard, setColumnIdAddCard] = useState<string | null>("");
+    const [isShowLeftBar,setIsShowLeftBar] = useState<boolean>(false)
 
     const itemBoard = listBoard.find((board) => board.id == boardId) as Board;
     const listColumns = useSelector(
@@ -45,7 +45,9 @@ const ItemBoards = () => {
     );
 
 
-
+    const showLeft = (isShowLeft: boolean) => {
+        setIsShowLeftBar(isShowLeft);
+    }
     const listColumnCurrent = listColumns.filter(
         (column) => column.boardId == boardId
     );
@@ -137,28 +139,30 @@ const ItemBoards = () => {
     };
     return (
         <div
-            className={`${itemBoard?.backgroundColor} flex relative bg-fix max-h-full w-full min-h-screen pt-[48px] overflow-y-hidden`}
+            className={`${itemBoard?.backgroundColor} flex relative bg-fix max-h-full min-h-screen w-screen pt-[48px] overflow-hidden`}
         >
 
             {/* left Bar */}
-            <LefBarItemBoard listBoard={listBoard}/>
+            <LefBarItemBoard listBoard={listBoard} showLeft={showLeft} />
             
 
             {/* list column right */}
-            <div className="flex-1 relative">
+            <div
+                className="flex-1 relative"
+            >
 
                 {/* title board */}
-                <TitleBoard itemBoard={itemBoard} />
+                <TitleBoard itemBoard={itemBoard} isShowLeftBar={isShowLeftBar}/>
                 
 
-                <div className="absolute flex items-start gap-[10px] top-[58px] z-[3] max-h-full">
+                <div className="absolute h-[var(--height-container-column)] flex gap-[10px] left-0 top-[58px] pb-[-20px] z-[3] w-full overflow-x-scroll">
+                    <div className="flex items-start flex-nowrap gap-[10px] pt-[15px] pl-[10px] h-full">
                     <DndContext
                         onDragStart={onDragStart}
                         onDragEnd={onDragEnd}
                         sensors={sensor}
                     >
                         <SortableContext items={listColumId}>
-                            <div className="flex gap-[10px] mt-[10px] ml-[10px]">
                                 {listColumnCurrent.map((column) => (
                                     <ColumnItem
                                         key={column.id}
@@ -170,7 +174,6 @@ const ItemBoards = () => {
                                         }
                                     />
                                 ))}
-                            </div>
                         </SortableContext>
                         <DragOverlay>
                             {activeColumn && (
@@ -189,7 +192,7 @@ const ItemBoards = () => {
                             )}
                         </DragOverlay>
                     </DndContext>
-
+                    </div>
                     {/* create column */}
                     <CreateColumn
                         boardId={boardId}
