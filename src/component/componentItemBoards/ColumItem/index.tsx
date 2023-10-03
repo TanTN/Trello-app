@@ -151,7 +151,7 @@ const ColumnItem = (prop: Prop) => {
             ref={setNodeRef}
             className={`${
                 rotate && "rotate-[6deg]"
-            } w-[272px] max-h-[770px] bg-bgColor rounded-[10px] overflow-y-auto`}
+            } w-[272px] bg-bgColor rounded-[10px] overflow-hidden`}
             style={style}
         >
             {!isEditTitleColumn ? <p
@@ -182,21 +182,24 @@ const ColumnItem = (prop: Prop) => {
                     />
                 </div>
             }
-            <div className="px-[10px]">
-                <SortableContext items={listTaskId}>
-                    {taskContainerCurrent.map((task) => (
-                        <TaskItem key={task.id} task={task} />
-                    ))}
-                </SortableContext>
+
+            <div className="colorScrollBar max-h-[740px] overflow-y-auto">
+                <div className="px-[10px]">
+                    <SortableContext items={listTaskId}>
+                        {taskContainerCurrent.map((task) => (
+                            <TaskItem key={task.id} task={task} />
+                        ))}
+                    </SortableContext>
+                </div>
+    
+                {/* create card */}
+                <CreateCard
+                    idColumnAddCard={idColumnAddCard}
+                    columnId={column.id}
+                    handleSetIdColumnAddCard={handleSetIdColumnAddCard}
+    
+                />
             </div>
-
-            {/* create card */}
-            <CreateCard
-                idColumnAddCard={idColumnAddCard}
-                columnId={column.id}
-                handleSetIdColumnAddCard={handleSetIdColumnAddCard}
-
-            />
 
             
         </div>

@@ -79,21 +79,32 @@
 
 /*custom scrollbar*/
 /* width */
+
 ::-webkit-scrollbar {
-  width: 10px;
+  height: 10px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: transparent ; 
+  padding-bottom: 10px;
 }
  
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888; 
+  background: #787878; 
+  padding-bottom: 10px;
+  border-radius: 10px;
+  
 }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+.colorScrollBar::-webkit-scrollbar {
+    width: 10px;
+  }
+.colorScrollBar::-webkit-scrollbar-thumb {
+    background: #3B3B3B; 
+    border-radius: 10px;
+}
+.colorScrollBar::-webkit-scrollbar-track {
+    background: #292929 ; 
 }

@@ -44,13 +44,15 @@ const TitleBoard = (prop: Prop) => {
               
                     
                         <div className='h-[32px]'>
-                            <div className='hiddenLineLong1 inline-block h-[32px] hover:bg-[#d6d6d63f] rounded-[4px] px-[8px] border-[1px] border-transparent ml-[8px] cursor-pointer'
-                                onClick={() => {
-                                    setIsShowInputChangeTitle(true)
-                                }}
-                                ref={textarea}
-                            >
-                                {itemBoard?.title}
+                            <div className={`inline-block`}>
+                                <div className={`hiddenLineLong1 ${isShowLeftBar ? "max-w-[var(--width-textarea-titleBoard-noShowLeft)] " : "max-w-[var(--width-textarea-titleBoard-showLeft)]"} hover:bg-[#d6d6d63f] rounded-[4px] px-[8px] border-[1px] border-transparent ml-[8px] cursor-pointer`}
+                                    onClick={() => {
+                                        setIsShowInputChangeTitle(true)
+                                    }}
+                                    ref={textarea}
+                                >
+                                    <>{itemBoard?.title}</>
+                                </div>
                             </div>
                         </div>
                      :

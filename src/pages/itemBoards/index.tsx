@@ -139,7 +139,7 @@ const ItemBoards = () => {
     };
     return (
         <div
-            className={`${itemBoard?.backgroundColor} flex relative bg-fix max-h-full min-h-screen w-screen pt-[48px] overflow-hidden`}
+            className={`${itemBoard?.backgroundColor} flex relative bg-fix h-screen w-screen pt-[48px] overflow-hidden`}
         >
 
             {/* left Bar */}
@@ -155,8 +155,8 @@ const ItemBoards = () => {
                 <TitleBoard itemBoard={itemBoard} isShowLeftBar={isShowLeftBar}/>
                 
 
-                <div className="absolute h-[var(--height-container-column)] flex gap-[10px] left-0 top-[58px] pb-[-20px] z-[3] w-full overflow-x-scroll">
-                    <div className="flex items-start flex-nowrap gap-[10px] pt-[15px] pl-[10px] h-full">
+                <div className="absolute h-[var(--height-container-column)] flex gap-[10px] left-0 top-[58px] bottom-0 z-[3] w-full overflow-x-scroll">
+                    <div className="flex items-start flex-nowrap gap-[10px] pt-[15px] pl-[10px]">
                     <DndContext
                         onDragStart={onDragStart}
                         onDragEnd={onDragEnd}
