@@ -6,6 +6,9 @@
 @layer base {
     :root {
         --height-leftbar: calc(100vh - 88px);
+        --width-textarea-titleBoard-showLeft: calc(100vw - 16px - 70px);
+        --width-textarea-titleBoard-noShowLeft: calc(100vw - 253px - 70px);
+        --height-container-column: calc(100vh - 62px - 44px)
     }
     body {
         @apply p-0 m-0 box-border;
@@ -72,4 +75,25 @@
     }
 .tox.tox-tinymce {
     background: #22272b !important;
+}
+
+/*custom scrollbar*/
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
 }
