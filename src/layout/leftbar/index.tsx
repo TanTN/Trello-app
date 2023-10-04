@@ -1,4 +1,3 @@
-import React from "react";
 import { BsTrello } from "react-icons/bs";
 
 const LeftBar = () => {

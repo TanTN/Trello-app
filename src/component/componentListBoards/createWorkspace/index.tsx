@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import { ReactElement, useState } from "react";
 import Tippy from "@tippyjs/react/headless";
 import { v4 as uuidv4 } from "uuid";
 
@@ -66,14 +66,14 @@ const CreateWorkspace = ({ children, offsetButtonHeader }: { children: ReactElem
         }
     };
 
-    const place = offsetButtonHeader ? {placement: "bottom-end"} : {placement: "right-start"}
+    
     return (
         <Tippy
             interactive
             delay={[100, 0]}
             trigger="mousedown"
             zIndex={1000}
-            {...place}
+            placement={offsetButtonHeader ? "bottom-end" : "right-start"}
             render={(attrs) => (
                 <div
                     className="w-[304px] bg-[#282e33] rounded-[8px]"

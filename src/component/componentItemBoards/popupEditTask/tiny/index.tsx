@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 
 import "tinymce/skins/ui/oxide/skin.min.css";

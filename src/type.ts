@@ -13,17 +13,26 @@ export interface Column {
     title: string
 }
 
+export interface Dates {
+        day: string;
+        month: string;
+        monthWord: string
+        year: string;
+        hour: string;
+        minute: string;
+        isShow: boolean;
+        dateComplete: boolean
+}
 export interface Task {
     id:string;
     columnId:string;
     title: string;
+    dates: Dates
     content?: string;
 }
 
 export interface EditTask {
     id: string | undefined;
-    content: string | undefined
-
 }
 
 export interface InitialState {

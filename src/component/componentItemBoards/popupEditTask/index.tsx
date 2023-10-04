@@ -1,11 +1,16 @@
 import React, { useRef, useEffect, useState } from "react";
 import { AiFillCreditCard, AiOutlineClose } from "react-icons/ai";
+import { TiEyeOutline } from "react-icons/Ti";
+
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { IoMdTime } from "react-icons/io";
 import Tiny from "./tiny";
 import { useDispatch, useSelector } from "react-redux";
-import { changeTitleTask, setIdTaskEdit } from "../../../store/reducer";
+import { changeTitleTask, setDateComplete, setIdTaskEdit } from "../../../store/reducer";
 import { InitialState, Task } from "../../../type";
+import Date from "./date";
+import dayjs from 'dayjs';
+
 
 const PopupEditTask = () => {
     const textareaElementRef = useRef<HTMLTextAreaElement | null>(null);
@@ -15,10 +20,15 @@ const PopupEditTask = () => {
     const idTask = useSelector((state: { workspace: InitialState }) => state.workspace.editTask.id)
     const taskContainer = useSelector((state: { workspace: InitialState }) => state.workspace.taskContainers)
     const taskCurrent = taskContainer.find(task => task.id === idTask) as Task
-    
+    const dates = taskCurrent?.dates
     const [toggleShowContent, setToggleShowContent] = useState<boolean>(false)
     const [titleTask, setTitleTask] = useState(taskCurrent?.title)
+    const [isShowDate, setIsShowDate] = useState<boolean>(false)
 
+    const dateCurrent = dayjs(`${dayjs().year()}-${dayjs().month()}-${dayjs().date()}`).minute(+dayjs().minute()).hour(+dayjs().hour()).valueOf()
+    const dueSoon = dayjs(`${dayjs().year()}-${dayjs().month()}-${dayjs().date() + 1}`).minute(+dayjs().minute()).hour(+dayjs().hour()).valueOf()
+    const dueDate = dates && dayjs(`${dates.year}-${dates.month}-${dates.day}`).minute(+dates.minute).hour(+dates.hour).valueOf()
+    
     useEffect(() => {
         const textarea = textareaElementRef?.current as HTMLTextAreaElement
         const content = contentElement.current as HTMLDivElement
@@ -31,9 +41,18 @@ const PopupEditTask = () => {
         }
     },[taskCurrent.content,toggleShowContent]);
 
-
+    const handleIsShowDate = () => {
+        setIsShowDate(!isShowDate)
+    }
     
-
+    const handleCompleteDate = (e : React.ChangeEvent<HTMLInputElement>) => {
+        const { checked } = e.target
+        if (checked) {
+            dispatch(setDateComplete({id: taskCurrent.id, dateComplete: true}))
+        } else {
+            dispatch(setDateComplete({id: taskCurrent.id, dateComplete: false}))
+        }
+    }
     const resizeTextarea = (e: React.FormEvent<HTMLTextAreaElement>) => {
         const target = e.target as HTMLElement;
         target.style.height = "0";
@@ -78,9 +97,43 @@ const PopupEditTask = () => {
                         >
                             {titleTask}
                         </textarea>
+
+                        <div className="flex items-start gap-4 m-[15px]">
+                            <div className="inline-block">
+                                <p className="text-[12px] pb-[10px]">Notifications</p>
+                                <div className="flex gap-1 items-center cursor-pointer px-[10px] py-[6px] bg-background-box hover:bg-background-box-hover">
+                                    <div className="text-[20px]"><TiEyeOutline /></div>
+                                    <p className="text-[14px]">Watch</p>
+                                </div>
+                            </div>
+
+                             {dates?.isShow && <div className="">
+                                <div className="">
+                                    <p className="text-[12px] pb-[10px]">Due date</p>
+                                    <div className="flex items-center gap-1 cursor-pointer px-[10px] py-[6px] bg-background-box hover:bg-background-box-hover">
+                                        <input type="checkbox" className=" checked:bg-create-button-background checked:text-white" onChange={e => handleCompleteDate(e)}/>
+                                        <div className="text-[14px]">
+                                        {dates?.day} {dates?.monthWord} {dates?.year}
+                                        </div>
+                                        {dates.dateComplete ?
+                                            <p className="px-[3px] bg-color-date-completed rounded-sm text-[12px] text-black">Completed</p>
+                                            :
+                                            dueDate < dateCurrent ? <p className="px-[3px] bg-color-date-overdue rounded-sm text-[12px] text-black">Overdue</p>
+                                            :
+                                            dateCurrent < dueDate && dueDate < dueSoon
+                                                    ? <p className="px-[3px] bg-color-date-dueSoon rounded-sm text-[12px] text-black">Due soon</p>
+                                                    : <p></p>
+                                        }
+                                    </div>
+                                </div>
+                            </div>}
+                        </div>
+                        
                         <div className="absolute top-[16px] left-[-28px] text-[22px]">
                             <AiFillCreditCard />
                         </div>
+
+
                         <div className="flex m-auto absolute rounded-[3px] cursor-pointer top-[16px] right-[-28px] text-[18px] w-[25px] h-[25px] hover:bg-background-box-hover"
                         onClick={closeEdit}
                         >
@@ -92,6 +145,7 @@ const PopupEditTask = () => {
                     <div className="flex-1 relative pl-[16px]">
                         <div className="ml-[40px] py-[8px] pl-[12px] text-[18px] font-medium">
                             <p>Description</p>
+                            
                             <div className="mt-[10px]">
                                 
                                 {toggleShowContent ?
@@ -112,12 +166,17 @@ const PopupEditTask = () => {
                     </div>
                     <div className="w-[192px] pr-[16px]">
                             <p className="text-sm">Add to card</p>
-                            <div className="flex gap-1 items-center mt-[8px] px-[12px] text-[14px] font-medium py-[6px] cursor-pointer bg-background-box hover:bg-background-box-hover rounded-[4px]">
-                                <div>
-                                    <IoMdTime />
-                                </div>
-                                <p>Dates</p>
+                        <Date handleIsShowDate={handleIsShowDate} idTask={idTask} isShowDate={isShowDate}>
+                            <div
+                            className="flex gap-1 items-center mt-[8px] px-[12px] text-[14px] font-medium py-[6px] cursor-pointer bg-background-box hover:bg-background-box-hover rounded-[4px]"
+                                onClick={handleIsShowDate}
+                            >
+                                    <div>
+                                        <IoMdTime />
+                                    </div>
+                                    <p>Dates</p>
                             </div>
+                        </Date>
                     </div>
                 </div>
             </div>

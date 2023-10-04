@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { addTask } from "../../../store/reducer";
 import { v4 as uuidv4 } from "uuid";
 import { AiOutlinePlus, AiOutlineClose } from "react-icons/ai";

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-import { Column, InitialState, Task } from "../../type";
+import { Column, Dates, InitialState, Task } from "../../type";
 import { Board } from "../../type";
 
 const initialState: InitialState = {
@@ -11,9 +11,8 @@ const initialState: InitialState = {
     historyViewed: [],
     editTask: {
         id: "",
-        content: "",
-
-    }
+    },
+    
 };
 const workspace = createSlice({
     name: "workspace",
@@ -116,12 +115,32 @@ const workspace = createSlice({
         setIdTaskEdit: (state, action: PayloadAction<string | undefined >) => {
             state.editTask.id = action.payload
         },
-        
+        setDate: (state, action: PayloadAction<{ id: string, dates: Dates }>) => {
+            const indexTask = state.taskContainers.findIndex(task => task.id === action.payload.id)
+            if (indexTask >= 0) { 
+                state.taskContainers[indexTask].dates = action.payload.dates
+            }
+        },
+        isRemoveDateTask: (state, action: PayloadAction<{ id: string, isShow: boolean }>) => {
+            const indexTask = state.taskContainers.findIndex(task => task.id === action.payload.id)
+            if (indexTask >= 0) { 
+                state.taskContainers[indexTask].dates.isShow =  action.payload.isShow
+            }
+        },
+        setDateComplete: (state, action: PayloadAction<{ id: string, dateComplete: boolean }>) => {
+            const indexTask = state.taskContainers.findIndex(task => task.id === action.payload.id)
+            if (indexTask >= 0) { 
+                state.taskContainers[indexTask].dates.dateComplete =  action.payload.dateComplete
+            }
+        }
 
     },
 });
 
 export const {
+    setDateComplete,
+    isRemoveDateTask,
+    setDate,
     addBoard,
     addColumn,
     addTask,

@@ -1,5 +1,5 @@
 import { Board } from '../../../type';
-import React, {useState} from 'react'
+import {useState} from 'react'
 import { BiSolidChevronRight, BiChevronLeft } from "react-icons/bi";
 import ContentLeftItemBoard from './contentLeftItemBoard';
 

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import {  useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Board, Column, InitialState, Task } from "../../type";
