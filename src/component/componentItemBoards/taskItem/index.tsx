@@ -46,7 +46,7 @@ const TaskItem = (prop: Prop) => {
   
   const handleDateComplete = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation()
-    dispatch(setDateComplete({id: task.id, dateComplete: !task.dates.dateComplete}))
+    dispatch(setDateComplete({id: task.id, dateComplete: !task.dates?.dateComplete}))
   }
   if (isDragging) {
     

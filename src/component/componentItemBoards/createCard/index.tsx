@@ -22,6 +22,16 @@ const CreateCard = (prop: Prop) => {
                 id: uuidv4(),
                 columnId: columnId,
                 title: titleTask,
+                dates: {
+                    day: NaN,
+                    month:NaN ,
+                    year: NaN,
+                    hour: NaN,
+                    minute:NaN ,
+                    isShow: false,
+                    dateComplete: false,
+                    monthWord: '',
+                }
             };
             dispatch(addTask(newTask));
             setTitleTask("");
@@ -33,7 +43,8 @@ const CreateCard = (prop: Prop) => {
                 <textarea
                 placeholder="Enter a title for this card..."
                 ref={textarea}
-                    className="
+                className="
+                colorScrollBar
                 focus:outline-none
                 resize-none
                 bg-background-box 

@@ -27,7 +27,7 @@ export interface Task {
     id:string;
     columnId:string;
     title: string;
-    dates: Dates
+    dates: Dates 
     content?: string;
 }
 

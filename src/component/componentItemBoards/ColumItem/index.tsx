@@ -3,10 +3,8 @@ import { Column, Task } from "../../../type";
 import TaskItem from "../taskItem";
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { v4 as uuidv4 } from "uuid";
-import { AiOutlinePlus, AiOutlineClose } from "react-icons/ai";
 import { useDispatch } from "react-redux";
-import { addTask, changeTitleColumn } from "../../../store/reducer";
+import { changeTitleColumn } from "../../../store/reducer";
 import CreateCard from "../createCard";
 
 interface Prop {
@@ -26,7 +24,6 @@ const ColumnItem = (prop: Prop) => {
 
     const listTaskId = taskContainerCurrent.map((task) => task.id);
 
-    const [titleTask, setTitleTask] = useState<string | null>("");
     const [titleColumn, setTitleColumn] = useState<string>(column.title);
     const [isEditTitleColumn, setIsEditTitleColumn] = useState<boolean>(false)
 
@@ -49,17 +46,7 @@ const ColumnItem = (prop: Prop) => {
         transform: CSS.Transform.toString(transform),
         transition,
     };
-    const handleAddTask = () => {
-        if (titleTask) {
-            const newTask = {
-                id: uuidv4(),
-                columnId: column.id,
-                title: titleTask,
-            };
-            dispatch(addTask(newTask));
-            setTitleTask("");
-        }
-    };
+
     const handleChangeTitleColumn = () => {
         if (titleColumn) { 
             dispatch(changeTitleColumn({id: column.id, title:titleColumn}))
@@ -88,59 +75,15 @@ const ColumnItem = (prop: Prop) => {
                             <TaskItem key={task.id} task={task} />
                         ))}
                     </SortableContext>
-                </div>
-                {idColumnAddCard === column.id ? (
-                    <div className="mx-[10px] mb-[8px] text-sm">
-                        <textarea
-                            placeholder="Enter a title for this card..."
-                            className="
-                        focus:outline-none
-                        resize-none
-                        bg-background-box 
-                        rounded-[6px] 
-                        min-h-[70px]
-                        w-full
-                        p-[8px]
-                        "
-                            value={titleTask ?? ''}
-                            onChange={(e) =>
-                                setTitleTask(e.target.value.trimStart())
-                            }
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter") {
-                                    handleAddTask();
-                                }
-                            }}
-                        />
-                        <div className="flex gap-2 items-center mt-[8px]">
-                            <button
-                                className="w-[73px] h-[32px] bg-create-button-background hover:bg-create-button-background-hovered text-black text-sm rounded-[4px]"
-                                onClick={handleAddTask}
-                            >
-                                Add cart
-                            </button>
-                            <div
-                                className="text-[18px] cursor-pointer"
-                                onClick={() => {
-                                    handleSetIdColumnAddCard(column.id);
-                                    setTitleTask("");
-                                }}
-                            >
-                                <AiOutlineClose />
-                            </div>
-                        </div>
                     </div>
-                ) : (
-                    <div
-                        className="flex items-center gap-2 rounded-[7px] mx-[10px] p-[8px] mb-[8px] cursor-pointer hover:bg-background-box-hover"
-                        onClick={() => handleSetIdColumnAddCard(column.id)}
-                    >
-                        <div className="text-[18px]">
-                            <AiOutlinePlus />
-                        </div>
-                        <div className=" text-[14px]">Add a card</div>
-                    </div>
-                )}
+                    
+                {/* create card */}
+                <CreateCard
+                    idColumnAddCard={idColumnAddCard}
+                    columnId={column.id}
+                    handleSetIdColumnAddCard={handleSetIdColumnAddCard}
+    
+                />
             </div>
         </div>
         );
@@ -154,7 +97,8 @@ const ColumnItem = (prop: Prop) => {
             } w-[272px] bg-bgColor rounded-[10px] overflow-hidden`}
             style={style}
         >
-            {!isEditTitleColumn ? <p
+            {!isEditTitleColumn ?
+            <p
                 className="h-[48px] py-[12px] px-[16px] w-full"
                 {...listeners}
                 {...attributes}

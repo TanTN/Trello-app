@@ -99,7 +99,7 @@ const workspace = createSlice({
             action: PayloadAction<{ id: string; title: string }>
         ) => {
             const indexTaskChange = state.taskContainers.findIndex(
-                (board) => board.id === action.payload.id
+                (board: { id: string; }) => board.id === action.payload.id
             );
             if (indexTaskChange >= 0) {
                 state.taskContainers[indexTaskChange].title =
@@ -107,7 +107,7 @@ const workspace = createSlice({
             }
         },
         editContentTask: (state, action: PayloadAction<{ id: string, content: string | undefined}>) => {
-            const indexTask = state.taskContainers.findIndex(task => task.id === action.payload.id)
+            const indexTask = state.taskContainers.findIndex((task: { id: string; }) => task.id === action.payload.id)
             if (indexTask >= 0) { 
                 state.taskContainers[indexTask].content = action.payload.content;
             }
@@ -116,19 +116,19 @@ const workspace = createSlice({
             state.editTask.id = action.payload
         },
         setDateTask: (state, action: PayloadAction<{ id: string, dates: Dates }>) => {
-            const indexTask = state.taskContainers.findIndex(task => task.id === action.payload.id)
+            const indexTask = state.taskContainers.findIndex((task: { id: string; }) => task.id === action.payload.id)
             if (indexTask >= 0) { 
                 state.taskContainers[indexTask].dates = action.payload.dates
             }
         },
         isRemoveDateTask: (state, action: PayloadAction<{ id: string, isShow: boolean }>) => {
-            const indexTask = state.taskContainers.findIndex(task => task.id === action.payload.id)
+            const indexTask = state.taskContainers.findIndex((task: { id: string; }) => task.id === action.payload.id)
             if (indexTask >= 0) { 
                 state.taskContainers[indexTask].dates.isShow =  action.payload.isShow
             }
         },
         setDateComplete: (state, action: PayloadAction<{ id: string, dateComplete: boolean }>) => {
-            const indexTask = state.taskContainers.findIndex(task => task.id === action.payload.id)
+            const indexTask = state.taskContainers.findIndex((task: { id: string; }) => task.id === action.payload.id)
             if (indexTask >= 0) { 
                 state.taskContainers[indexTask].dates.dateComplete =  action.payload.dateComplete
             }
