@@ -115,7 +115,7 @@ const workspace = createSlice({
         setIdTaskEdit: (state, action: PayloadAction<string | undefined >) => {
             state.editTask.id = action.payload
         },
-        setDate: (state, action: PayloadAction<{ id: string, dates: Dates }>) => {
+        setDateTask: (state, action: PayloadAction<{ id: string, dates: Dates }>) => {
             const indexTask = state.taskContainers.findIndex(task => task.id === action.payload.id)
             if (indexTask >= 0) { 
                 state.taskContainers[indexTask].dates = action.payload.dates
@@ -140,7 +140,7 @@ const workspace = createSlice({
 export const {
     setDateComplete,
     isRemoveDateTask,
-    setDate,
+    setDateTask,
     addBoard,
     addColumn,
     addTask,

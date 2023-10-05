@@ -14,14 +14,14 @@ export interface Column {
 }
 
 export interface Dates {
-        day: string;
-        month: string;
-        monthWord: string
-        year: string;
-        hour: string;
-        minute: string;
+        day: number;
+        month: number;
+        year: number;
+        hour: number;
+        minute: number;
         isShow: boolean;
         dateComplete: boolean
+        monthWord?: string
 }
 export interface Task {
     id:string;

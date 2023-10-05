@@ -5,63 +5,83 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { AiOutlineClose } from "react-icons/ai";
 import { TimePicker } from 'antd';
 import { Dates } from "../../../../type";
-import { isRemoveDateTask, setDate } from "../../../../store/reducer";
+import { isRemoveDateTask, setDateTask } from "../../../../store/reducer";
 import { useDispatch } from "react-redux";
 import Tippy from "@tippyjs/react/headless";
 dayjs.extend(customParseFormat);
 
 const format = 'HH:mm';
-const dateFormat = 'DD-MM-YYYY';
+const dateFormat = 'YYYY/MM/DD';
 
 interface Prop {
     handleIsShowDate: () => void
     idTask: string | undefined
-    isShowDate: boolean
+    isShowDatePopup: boolean
     children: ReactElement
+    dates: Dates 
+    handleCloseDatePopup: () => void
+
 }
 
 
 
 const Date = (prop: Prop) => {
-    const { handleIsShowDate,idTask,children,isShowDate } = prop
+    const { idTask,children,isShowDatePopup,dates,handleCloseDatePopup } = prop
     const dispatch = useDispatch()
-    const [date, setDates] = useState<Dates | object>({})
+    const currentDate = {
+        day:dayjs().date(),
+        month:dayjs().month(),
+        year:dayjs().year(),
+        hour:dayjs().hour(),
+        minute:dayjs().minute(),
+        isShow:true,
+        dateComplete:false,
+    }
+    const [date, setDate] = useState<Dates | object>(dates?.isShow ? dates : currentDate)
 
     const handleAddDates = () => {
-        dispatch(setDate({ id: idTask as string , dates : date as Dates}))
-        handleIsShowDate()
+        dispatch(setDateTask({ id: idTask as string , dates : date as Dates}))
+        handleCloseDatePopup()
     }
     const handleRemoveDate = () => { 
         dispatch(isRemoveDateTask({ id: idTask as string, isShow: false }))
-        handleIsShowDate()
+        handleCloseDatePopup()
         
     }
     const handleSetDate = (e: dayjs.Dayjs | null) => {
-        setDates((prev) => {
+        setDate((prev) => {
             const monthWord = e?.toString().split(' ')[2]
             return { ...prev, day: e?.date(), month: e?.month(), year: e?.year(), monthWord ,isShow: true,dateStatus:false}
         }
         )
     }
     const handleSetHours = (e: dayjs.Dayjs | null) => {
-        setDates((prev) => ({...prev, minute: e?.minute(), hour: e?.hour()}))
+        setDate((prev) => ({...prev, minute: e?.minute(), hour: e?.hour()}))
     }
-    const dateConfig : string = "04-10-2023"
-    const hoursConfig : string = "20:00"
+    const dateConfig = () => {
+        const dateCf = date as Dates
+        return `${dateCf.year}-${dateCf.month + 1  < 10 ? "0" + dateCf.month : dateCf.month + 1}-${dateCf.day < 10 ? "0" + dateCf.day : dateCf.day}`
+    }
+    const hourConfig = () => { 
+        const dateCf = date as Dates
+        return `${dateCf.hour}:${dateCf.minute}`
+    }
+    const dateInit : string = dateConfig()
+    const hoursInit : string = hourConfig()
     return (<Tippy
         interactive
         placement="bottom-start"
         offset={[0, 10]}
-        visible={isShowDate}
+        visible={isShowDatePopup}
         render={(attrs) => {
             return <div tabIndex={-1} {...attrs}>
                 <div className='flex relative flex-col gap-3 w-[304px] bg-[#282E33] px-[12px] py-[12px] rounded-[10px] border-[1px] border-[#464646]'>
             <p className='text-center'>Dates</p>
             <p className='text-[14px]'>Due date:</p>
-        <Space direction="vertical" size={12}>
-        <DatePicker defaultValue={dayjs(dateConfig, dateFormat)} onChange={handleSetDate} />
-        </Space>
-            <div><TimePicker defaultValue={dayjs(hoursConfig, format)} format={format} onChange={handleSetHours}/></div>
+                    <Space direction="vertical" size={12}>
+                        <DatePicker defaultValue={dayjs(dateInit, dateFormat)} onChange={handleSetDate} />
+                    <TimePicker defaultValue={dayjs(hoursInit, format)} format={format} onChange={handleSetHours}/>
+                    </Space>
             <button className='py-[6px] px-[12px] mb-[8px] text-black text-[14px] font-medium bg-create-button-background hover:bg-create-button-background-hovered rounded-[6px]'
                 onClick={handleAddDates}
             >
@@ -74,7 +94,7 @@ const Date = (prop: Prop) => {
             </button>
 
             <div className='absolute top-[10px] right-[10px] text-[14px] cursor-pointer rounded-[2px] hover:bg-background-box-hover px-[5px] py-[5px]'
-                onClick={handleIsShowDate}
+                onClick={handleCloseDatePopup}
             >
                 <AiOutlineClose />
             </div>
