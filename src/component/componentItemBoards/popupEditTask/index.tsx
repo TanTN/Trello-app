@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { AiFillCreditCard, AiOutlineClose } from "react-icons/ai";
-import { TiEyeOutline } from "react-icons/Ti";
+import { TiEyeOutline } from "react-icons/ti";
 import { BsCheck } from "react-icons/bs";
 
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
