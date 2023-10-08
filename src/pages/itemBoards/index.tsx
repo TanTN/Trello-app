@@ -5,8 +5,10 @@ import { Board, Column, InitialState, Task } from "../../type";
 import ColumnItem from "../../component/componentItemBoards/ColumItem";
 import {
     DndContext,
-    DragEndEvent,
+    // DragEndEvent,
+    DragOverEvent,
     DragOverlay,
+    DragStartEvent,
     PointerSensor,
     useSensor,
     useSensors,
@@ -28,9 +30,7 @@ const ItemBoards = () => {
     const listBoard = useSelector(
         (state: { workspace: InitialState }) => state.workspace.boardContainers
     );
-    const listTasks = useSelector(
-        (state: { workspace: InitialState }) => state.workspace.taskContainers
-    );
+
     const taskContainer = useSelector(
         (state: { workspace: InitialState }) => state.workspace.taskContainers
     );
@@ -73,19 +73,19 @@ const ItemBoards = () => {
         })
     );
 
-    const onDragStart = (event: any) => {
+    const onDragStart = (event: DragStartEvent) => {
         setActiveColumn(null);
         setActiveTask(null);
         const { active } = event;
 
-        if (active.data.current.type === "column") {
-            return setActiveColumn(event.active.data.current.column);
+        if (active.data.current?.type === "column") {
+            return setActiveColumn(event.active.data.current?.column);
         }
-        if (active.data.current.type === "task")
-            return setActiveTask(event.active.data.current.task);
+        if (active.data.current?.type === "task")
+            return setActiveTask(event.active.data.current?.task);
     };
 
-    const onDragOver = (event: any) => {
+    const onDragOver = (event: DragOverEvent) => {
         const { active, over } = event;
         if (!over) return;
         const activeId = active.id;
@@ -103,12 +103,12 @@ const ItemBoards = () => {
         const overColumnIndex = listColumns.findIndex(
             (column) => column.id === overId
         );
-        console.log("active:", active.data.current.type)
-        console.log("over:", over.data.current.type)
+        console.log("active:", active.data.current?.type)
+        console.log("over:", over.data.current?.type)
         console.log(overId)
         if (
-            active.data.current.type === "column" &&
-            over.data.current.type === "column"
+            active.data.current?.type === "column" &&
+            over.data.current?.type === "column"
         ) {
 
             dispatch(
@@ -123,8 +123,8 @@ const ItemBoards = () => {
         }
  
         if (
-            active.data.current.type === "task" &&
-            over.data.current.type === "task"
+            active.data.current?.type === "task" &&
+            over.data.current?.type === "task"
         ) {
             const taskContainerCopy = [...taskContainer];
             taskContainerCopy[activeTaskIndex] = {...taskContainerCopy[activeTaskIndex],columnId:taskContainerCopy[overTaskIndex].columnId}
@@ -140,11 +140,11 @@ const ItemBoards = () => {
             return
         }
         if (
-            active.data.current.type === "task" &&
-            over.data.current.type === "column"
+            active.data.current?.type === "task" &&
+            over.data.current?.type === "column"
         ) {
             const taskContainerCopy = [...taskContainer];
-            taskContainerCopy[activeTaskIndex] = { ...taskContainerCopy[activeTaskIndex], columnId: overId }
+            taskContainerCopy[activeTaskIndex] = { ...taskContainerCopy[activeTaskIndex], columnId: overId as string }
 
             dispatch(
                 sortTasks(
@@ -159,36 +159,36 @@ const ItemBoards = () => {
         }
     };
 
-    const onDragEnd = (event: any) => {
-        const { active, over } = event;
-        if (!over) return;
-        const activeId = active.id;
-        const overId = over.id;
+    // const onDragEnd = (event: any) => {
+    //     const { active, over } = event;
+    //     if (!over) return;
+    //     const activeId = active.id;
+    //     const overId = over.id;
 
-        const activeColumnIndex = listColumns.findIndex(
-            (column) => column.id === activeId
-        );
-        const overColumnIndex = listColumns.findIndex(
-            (column) => column.id === overId
-        );
+    //     const activeColumnIndex = listColumns.findIndex(
+    //         (column) => column.id === activeId
+    //     );
+    //     const overColumnIndex = listColumns.findIndex(
+    //         (column) => column.id === overId
+    //     );
 
-        if (
-            active.data.current.type === "column" &&
-            over.data.current.type === "column"
-        ) {
+    //     if (
+    //         active.data.current.type === "column" &&
+    //         over.data.current.type === "column"
+    //     ) {
 
-            dispatch(
-                sortColumns(
-                    arrayMove(
-                        [...listColumns],
-                        activeColumnIndex,
-                        overColumnIndex
-                    )
-                )
-            );
-        }
+    //         dispatch(
+    //             sortColumns(
+    //                 arrayMove(
+    //                     [...listColumns],
+    //                     activeColumnIndex,
+    //                     overColumnIndex
+    //                 )
+    //             )
+    //         );
+    //     }
 
-    };
+    // };
     return (
         <div
             className={`${itemBoard?.backgroundColor} flex relative bg-fix h-screen w-screen pt-[48px] overflow-hidden`}
@@ -208,7 +208,7 @@ const ItemBoards = () => {
                 
                 <DndContext
                         onDragStart={onDragStart}
-                            onDragEnd={onDragEnd}
+                            // onDragEnd={onDragEnd}
                             onDragOver={onDragOver}
                         sensors={sensor}
                     >

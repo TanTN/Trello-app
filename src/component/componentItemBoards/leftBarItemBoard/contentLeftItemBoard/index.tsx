@@ -80,16 +80,16 @@ const ContentLeftItemBoard = (prop: Prop) => {
         }
     };
 
-    const changeWorkspace = (id: string) => {
+    const changeBoard = (id: string) => {
         navigate(`/itemBoard/${id}`);
     };
     return (
         <div className="w-full">
-            <p className="px-[12px] py-[4px] text-sm font-medium h-[32px]">
+            <p className="px-[12px] py-[4px] text-sm font-medium h-[32px] w-full">
                 Your boards
             </p>
 
-            <div className="">
+            <div className="w-full">
                 {sortListBoard.map((board) => (
                     <div
                         key={board.id}
@@ -101,23 +101,23 @@ const ContentLeftItemBoard = (prop: Prop) => {
                     >
                         {/* background */}
                         <div
-                            className="flex flex-1 items-center gap-2 cursor-pointer"
-                            onClick={() => changeWorkspace(board.id)}
+                            className="flex flex-1 items-center gap-2 cursor-pointer w-[148px]"
+                            onClick={() => changeBoard(board.id)}
                         >
-                            <div
-                                className={`${board.backgroundColor} relative w-[30px] h-[20px] overflow-hidden rounded-[3px]`}
-                            >
-                                {board.backgroundImg && (
-                                    <img
-                                        src={board.backgroundImg ?? ""}
-                                        alt=""
-                                        className="absolute top-0 left-0 right-0 bottom-0 w-full h-full object-cover"
-                                    />
-                                )}
-                            </div>
+                                <div
+                                    className={`${board.backgroundColor} relative w-[30px] h-[20px] overflow-hidden rounded-[3px]`}
+                                >
+                                    {board.backgroundImg && (
+                                        <img
+                                            src={board.backgroundImg ?? ""}
+                                            alt=""
+                                            className="absolute top-0 left-0 right-0 bottom-0 w-full h-full object-cover"
+                                        />
+                                    )}
+                                </div>
 
                             {/* title */}
-                            <div className={`hiddenLineLong1 ${idHoverBoartItem == board.id ? "w-[148px]" : "w-[175px]"} text-sm`}>{board.title}</div>
+                            <div className="hiddenLineLong1 flex-1 text-sm">{board.title}</div>
                         </div>
 
                         <div className="flex gap-1 items-center">
@@ -160,13 +160,13 @@ const ContentLeftItemBoard = (prop: Prop) => {
                                     <div
                                         ref={moreElement}
                                         className="absolute z-[300] top-[120%] left-[80%] w-[304px] h-[92px] bg-[#282e33] rounded-[6px] border-[1px] border-[#464646]"
-                                        onClick={handleCloseMore}
+                                        
                                         onMouseEnter={() => setIdHoverBoardItem(null)}
                                     >
                                         <div className="relative h-[48px] text-[14px] px-[40px]">
                                             <div className="hiddenLineLong1 w-full text-center leading-[48px]">{board.title}</div>
                                             <div className="closeMore flex justify-center items-center absolute top-[11px] right-[10px] w-[26px] h-[26px] rounded-[7px] cursor-pointer hover:bg-background-box-hover text-[15px]"
-                                            
+                                            onClick={handleCloseMore}
                                             ><AiOutlineClose /></div>
                                         </div>
                                         <div
@@ -174,6 +174,7 @@ const ContentLeftItemBoard = (prop: Prop) => {
                                             onClick={() =>
                                                 handleDeleteBoard(board.id)
                                             }
+                                            onMouseEnter={() => setIdHoverBoardItem(null)}
                                         >
                                             Close board
                                         </div>

@@ -1,9 +1,10 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useState,useEffect } from "react";
 import Tippy from "@tippyjs/react/headless";
 import { v4 as uuidv4 } from "uuid";
 
 import { AiOutlineCheck } from "react-icons/ai";
 import { RiMoreFill } from "react-icons/ri";
+import { AiOutlineClose } from "react-icons/ai";
 
 import { listImages } from "../../../assets";
 import { useDispatch } from "react-redux";
@@ -23,6 +24,7 @@ const CreateWorkspace = ({ children, offsetButtonHeader }: { children: ReactElem
         -1
     );
     const [title, setTitle] = useState<string>("");
+    const [isShowPopup, seIsShowPopup] = useState<boolean>(false);
 
     const listColor: string[] = [
         "color1",
@@ -31,6 +33,10 @@ const CreateWorkspace = ({ children, offsetButtonHeader }: { children: ReactElem
         "color4",
         "color5",
     ];
+
+    useEffect(() => {
+        seIsShowPopup(false)
+    },[isShowPopup])
     
     const createWorkspace = () => {
         if (title) {
@@ -65,7 +71,7 @@ const CreateWorkspace = ({ children, offsetButtonHeader }: { children: ReactElem
             navigate(`itemBoard/${id}`);
         }
     };
-
+    const customTippy = isShowPopup ? { visible: false } : { trigger: "mousedown" }
     
     return (
         <Tippy
@@ -74,9 +80,10 @@ const CreateWorkspace = ({ children, offsetButtonHeader }: { children: ReactElem
             trigger="mousedown"
             zIndex={1000}
             placement={offsetButtonHeader ? "bottom-end" : "right-start"}
+            {...customTippy}
             render={(attrs) => (
                 <div
-                    className="w-[304px] bg-[#282e33] rounded-[8px]"
+                    className="relative w-[304px] bg-[#282e33] rounded-[8px]"
                     tabIndex={-1}
                     {...attrs}
                 >
@@ -187,6 +194,10 @@ const CreateWorkspace = ({ children, offsetButtonHeader }: { children: ReactElem
                             Create
                         </button>
                     </div>
+
+                    <div className="absolute top-[10px] right-[10px] p-[5px] bg-background-box hover:bg-background-box-hover rounded-[4px] cursor-pointer"
+                        onClick={() => seIsShowPopup(true)}
+                    ><AiOutlineClose /></div>
                 </div>
             )}
             
