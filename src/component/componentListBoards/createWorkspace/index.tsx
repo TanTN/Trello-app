@@ -75,11 +75,11 @@ const CreateWorkspace = ({ children, offsetButtonHeader }: { children: ReactElem
     
     return (
         <Tippy
-            interactive
-            delay={[100, 0]}
-            trigger="mousedown"
-            zIndex={1000}
-            placement={offsetButtonHeader ? "bottom-end" : "right-start"}
+        delay={[100, 0]}
+        trigger="mousedown"
+        zIndex={1000}
+        placement={offsetButtonHeader ? "bottom-end" : "right-start"}
+        interactive
             {...customTippy}
             render={(attrs) => (
                 <div

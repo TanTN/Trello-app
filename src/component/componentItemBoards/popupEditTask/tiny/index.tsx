@@ -14,7 +14,6 @@ const Tiny = (prop: Prop) => {
     const [value, setValue] = useState<string | undefined>(taskCurrent.content);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [text, setText] = useState<string>("");
     const dispatch = useDispatch()
 
     const addContentTask = () => {
@@ -30,10 +29,10 @@ const Tiny = (prop: Prop) => {
                 apiKey="h835x1gqn9kjot71x3lhsm00wri05t63w7owbcfy88bw0f56"
                 onEditorChange={(value, editor) => {
                     setValue(value);
-                    setText(editor.getContent({ format: "text" }));
+                    editor.getContent({ format: "text" })
                 }}
-                onInit={(evt, editor) =>
-                    setText(editor.getContent({ format: "text" }))
+                onInit={(__evt, editor) =>
+                    editor.getContent({ format: "text" })
                 }
                 value={value}
                 init={{
