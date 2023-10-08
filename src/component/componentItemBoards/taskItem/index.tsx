@@ -50,14 +50,17 @@ const TaskItem = (prop: Prop) => {
   }
   if (isDragging) {
     
-    return <div ref={setNodeRef} style={style} className='min-h-[36px] p-[8px] mb-[8px] break-words bg-background-box rounded-[7px] overflow-x-hidden'>
+    return <div ref={setNodeRef} style={style} className='min-h-[36px] p-[8px] mb-[8px] break-words bg-[#44444427] rounded-[7px] overflow-x-hidden'>
       <p className='invisible text-sm'>{task.title}</p>
     </div>
 
   }
   return (
     <>
-      <div ref={setNodeRef} className={` bg-background-box hover:bg-[#414141] break-words min-h-[36px] p-[8px] overflow-x-hidden ${rotate && "rotate-[6deg] shadow bg-[#414141]"} rounded-[7px] mb-[8px] cursor-pointer text-sm`} {...attributes} {...listeners}
+      <div ref={setNodeRef} className={` bg-[#2c2c2c] hover:bg-[#414141] break-words min-h-[36px] p-[8px] overflow-x-hidden ${rotate && "rotate-[3deg] shadow bg-[#414141]"}  rounded-[7px] mb-[8px] cursor-pointer text-sm`}
+        style={style}
+        {...attributes}
+        {...listeners}
       onClick={() => editContent(task.id)}
       >
         {task.title}

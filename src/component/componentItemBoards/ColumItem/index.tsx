@@ -4,9 +4,9 @@ import TaskItem from "../taskItem";
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useDispatch } from "react-redux";
-import { changeTitleColumn } from "../../../store/reducer";
+import { changeTitleColumn,deleteColumn } from "../../../store/reducer";
 import CreateCard from "../createCard";
-
+import {BsTrash} from "react-icons/bs"
 interface Prop {
     column: Column;
     taskContainer: Task[];
@@ -34,6 +34,7 @@ const ColumnItem = (prop: Prop) => {
         transform,
         transition,
         isDragging,
+  
     } = useSortable({
         id: column.id,
         data: {
@@ -41,6 +42,10 @@ const ColumnItem = (prop: Prop) => {
             column,
         },
     });
+
+    const handleDeleteColumn = () => {
+        dispatch(deleteColumn(column.id));
+    }
 
     const style = {
         transform: CSS.Transform.toString(transform),
@@ -52,20 +57,20 @@ const ColumnItem = (prop: Prop) => {
             dispatch(changeTitleColumn({id: column.id, title:titleColumn}))
         }
     }
+    
     if (isDragging) {
         return (
             <div
             ref={setNodeRef}
-            className={`${
-                rotate && "rotate-[6deg]"
-            } w-[272px] bg-[#0808085e] rounded-[10px]`}
+            className={`w-[272px] bg-[#0808085e] rounded-[10px]`}
             style={style}
+            {...listeners}
+            {...attributes}
         >
             <div className="invisible">
                 <p
                     className="h-[48px] leading-[48px] px-[20px]"
-                    {...listeners}
-                    {...attributes}
+                    
                 >
                     {column.title}
                 </p>
@@ -91,22 +96,30 @@ const ColumnItem = (prop: Prop) => {
 
     return (
         <div
-            ref={setNodeRef}
             className={`${
-                rotate && "rotate-[6deg]"
+                rotate && "rotate-[3deg]"
             } w-[272px] bg-bgColor rounded-[10px] overflow-hidden`}
             style={style}
+            ref={setNodeRef}
+            
         >
-            {!isEditTitleColumn ?
-            <p
-                className="h-[48px] py-[12px] px-[16px] w-full"
+            <div
+                className="flex items-center justify-between h-[48px] py-[10px] px-[8px] w-full"
                 {...listeners}
                 {...attributes}
+            >
+
+            {!isEditTitleColumn ?
+            <div
+                className="flex-1 px-[6px] py-[4px]"
+                
+                    
                 onClick={() => setIsEditTitleColumn(true)}
             >
-                <div className="hiddenLineLong1 h-[24px] overflow-hidden border-[2px] border-[transparent] text-sm">{column.title}</div>
-            </p> :
-                <div className="h-[48px] px-[10px] py-[8px]">
+                    <div className="hiddenLineLong1 h-[24px] overflow-hidden border-[2px] border-[transparent] text-sm">{column.title}</div>
+                    
+            </div> :
+                <div className="flex-1">
                     <input
                         type="text"
                         className="w-full px-[6px] py-[4px] rounded-[8px] text-sm bg-background-box-hover outline-none border-[2px] border-border-input-color"
@@ -125,7 +138,11 @@ const ColumnItem = (prop: Prop) => {
                         }}
                     />
                 </div>
-            }
+                }
+                <div className="px-[5px] py-[5px] cursor-pointer rounded-[3px] hover:bg-background-box-hover"
+                onClick={handleDeleteColumn}
+                ><BsTrash /></div>
+            </div>
 
             <div className="colorScrollBar max-h-[740px] overflow-y-auto">
                 <div className="px-[10px]">

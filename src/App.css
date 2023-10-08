@@ -8,7 +8,7 @@
         --height-leftbar: calc(100vh - 88px);
         --width-textarea-titleBoard-showLeft: calc(100vw - 16px - 70px);
         --width-textarea-titleBoard-noShowLeft: calc(100vw - 253px - 70px);
-        --height-container-column: calc(100vh - 62px - 44px)
+        --height-container-column: calc(100vh - 62px - 44px - 5px)
     }
     body {
         @apply p-0 m-0 box-border;
@@ -76,12 +76,17 @@
 .tox.tox-tinymce {
     background: #22272b !important;
 }
+:where(.css-dev-only-do-not-override-pr0fja).ant-picker .ant-picker-clear {
+    display: none;
+}
+:where(.css-dev-only-do-not-override-pr0fja).ant-picker .ant-picker-suffix {
+    display: none;
 
+}
 /*custom scrollbar*/
 /* width */
-
 ::-webkit-scrollbar {
-  height: 6px;
+  height: 12px;
 
 }
 

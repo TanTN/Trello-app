@@ -25,8 +25,8 @@ const ContentLeftItemBoard = (prop: Prop) => {
     const [boardShowMore, setBoardShowMore] = useState<string | null>("");
     const [idHoverBoartItem, setIdHoverBoardItem] = useState<string | null>("")
 
-    const more = useRef<HTMLDivElement>(null);
-
+    const moreElement = useRef<HTMLDivElement>(null);
+    const moreButton = useRef<HTMLDivElement>(null);
     const listBoardNoStar: Board[] = [];
     const sortListBoard = [...listBoard]
         .filter((board) => {
@@ -53,10 +53,12 @@ const ContentLeftItemBoard = (prop: Prop) => {
         const handleClickOutMore = (e: globalThis.MouseEvent) => {
             const target = e.target as HTMLElement;
             
-            const isSideOut = more.current?.contains(target)
+            const isSideOut = moreElement.current?.contains(target)
+            const isClickButtonMore = moreButton.current?.contains(target)
             
-            if (!isSideOut) {
+            if (!isSideOut && !isClickButtonMore) {
                 setBoardShowMore(null);
+                
             }
         }
         document.addEventListener("mousedown",handleClickOutMore)
@@ -65,13 +67,10 @@ const ContentLeftItemBoard = (prop: Prop) => {
         }
     }, [])
     
-    const handleCloseMore = (e: React.MouseEvent<HTMLDivElement>) => {
-        e.stopPropagation()
-        const target = e.target as HTMLElement;
-        const isCloseMore = target.closest(".closeMore")
-        if (isCloseMore) {
+    const handleCloseMore = () => {
+        
             setBoardShowMore(null);
-        }
+        
     }
 
     const handleDeleteBoard = (id: string) => {
@@ -96,7 +95,7 @@ const ContentLeftItemBoard = (prop: Prop) => {
                         key={board.id}
                         className={`flex justify-between ${
                             boardId == board.id && "bg-[#636268]"
-                            } group/item px-[12px] h-[32px] ${idHoverBoartItem == board.id && "bg-background-box-hover"} text-textColorHeader`}
+                            } group/item relative px-[12px] h-[32px] ${idHoverBoartItem == board.id && "bg-background-box-hover"} text-textColorHeader`}
                         onMouseEnter={() => setIdHoverBoardItem(board.id)}
                         onMouseLeave={() => setIdHoverBoardItem(null)}
                     >
@@ -124,22 +123,43 @@ const ContentLeftItemBoard = (prop: Prop) => {
                         <div className="flex gap-1 items-center">
                             {/* more */}
                             <div
+                                ref={moreButton}
                                 className={`group/edit ${
                                     boardShowMore == board.id
                                         ? "flex"
                                         : "hidden"
-                                    } cursor-pointer group-hover/item:flex relative justify-center items-center w-[22px] h-[22px] hover:bg-background-box-hover rounded-[2px]
+                                    } cursor-pointer group-hover/item:flex justify-center items-center w-[22px] h-[22px] hover:bg-background-box-hover rounded-[2px]
                                     
                                     `}
                                 onClick={() => isShowMore(board.id)}
-                                ref={more}
                             >
                                 <AiOutlineMore />
 
-                                {boardShowMore == board.id && ( 
+                            </div>
+                                
+
+                            {/* star */}
+                            <div
+                                className="hover:scale-[1.2] cursor-pointer"
+                                onClick={() =>
+                                    updateIsStarBoard(board.id, board.isStar)
+                                }
+                            >
+                                {!board.isStar ? 
+                                    idHoverBoartItem == board.id && <div className="group/edit invisible group-hover/item:visible">
+                                        <AiOutlineStar />
+                                    </div>
+                                : (
+                                    <div>
+                                        <AiFillStar />
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                        {boardShowMore == board.id && ( 
                                     <div
-                                        
-                                        className="absolute z-[300] top-[140%] left-0 w-[304px] h-[92px] bg-[#282e33] rounded-[6px] border-[1px] border-[#464646]"
+                                        ref={moreElement}
+                                        className="absolute z-[300] top-[120%] left-[80%] w-[304px] h-[92px] bg-[#282e33] rounded-[6px] border-[1px] border-[#464646]"
                                         onClick={handleCloseMore}
                                         onMouseEnter={() => setIdHoverBoardItem(null)}
                                     >
@@ -159,26 +179,6 @@ const ContentLeftItemBoard = (prop: Prop) => {
                                         </div>
                                     </div>
                                 )}
-                            </div>
-
-                            {/* star */}
-                            <div
-                                className="hover:scale-[1.2] cursor-pointer"
-                                onClick={() =>
-                                    updateIsStarBoard(board.id, board.isStar)
-                                }
-                            >
-                                {!board.isStar ? (
-                                    <div className="group/edit invisible group-hover/item:visible">
-                                        <AiOutlineStar />
-                                    </div>
-                                ) : (
-                                    <div>
-                                        <AiFillStar />
-                                    </div>
-                                )}
-                            </div>
-                        </div>
                     </div>
                 ))}
             </div>

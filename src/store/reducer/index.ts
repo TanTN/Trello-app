@@ -132,12 +132,24 @@ const workspace = createSlice({
             if (indexTask >= 0) { 
                 state.taskContainers[indexTask].dates.dateComplete =  action.payload.dateComplete
             }
+        },
+        deleteTask: (state, action: PayloadAction<string>) => {
+            const newTaskContainer = state.taskContainers.filter(task => task.id !== action.payload)
+            state.taskContainers = newTaskContainer
+            state.editTask.id = undefined
+        },
+        deleteColumn: (state, action: PayloadAction<string>) => {
+            const newColumnContainer = state.columnContainers.filter(column => column.id !== action.payload)
+            state.columnContainers = newColumnContainer
         }
+
 
     },
 });
 
 export const {
+    deleteColumn,
+    deleteTask,
     setDateComplete,
     isRemoveDateTask,
     setDateTask,

@@ -5,6 +5,7 @@ import { Board, Column, InitialState, Task } from "../../type";
 import ColumnItem from "../../component/componentItemBoards/ColumItem";
 import {
     DndContext,
+    DragEndEvent,
     DragOverlay,
     PointerSensor,
     useSensor,
@@ -26,6 +27,9 @@ const ItemBoards = () => {
     const dispatch = useDispatch();
     const listBoard = useSelector(
         (state: { workspace: InitialState }) => state.workspace.boardContainers
+    );
+    const listTasks = useSelector(
+        (state: { workspace: InitialState }) => state.workspace.taskContainers
     );
     const taskContainer = useSelector(
         (state: { workspace: InitialState }) => state.workspace.taskContainers
@@ -86,28 +90,72 @@ const ItemBoards = () => {
         if (!over) return;
         const activeId = active.id;
         const overId = over.id;
+
         const activeTaskIndex = taskContainer.findIndex(
             (task) => task.id === activeId
         );
         const overTaskIndex = taskContainer.findIndex(
             (task) => task.id === overId
         );
+        const activeColumnIndex = listColumns.findIndex(
+            (column) => column.id === activeId
+        );
+        const overColumnIndex = listColumns.findIndex(
+            (column) => column.id === overId
+        );
+        console.log("active:", active.data.current.type)
+        console.log("over:", over.data.current.type)
+        console.log(overId)
+        if (
+            active.data.current.type === "column" &&
+            over.data.current.type === "column"
+        ) {
+
+            dispatch(
+                sortColumns(
+                    arrayMove(
+                        [...listColumns],
+                        activeColumnIndex,
+                        overColumnIndex
+                    )
+                )
+            );
+        }
+ 
         if (
             active.data.current.type === "task" &&
             over.data.current.type === "task"
         ) {
             const taskContainerCopy = [...taskContainer];
-            taskContainerCopy[activeTaskIndex].columnId =
-                taskContainerCopy[overTaskIndex].columnId;
+            taskContainerCopy[activeTaskIndex] = {...taskContainerCopy[activeTaskIndex],columnId:taskContainerCopy[overTaskIndex].columnId}
             dispatch(
                 sortTasks(
                     arrayMove(
-                        [...taskContainer],
+                        [...taskContainerCopy],
                         activeTaskIndex,
                         overTaskIndex
                     )
                 )
             );
+            return
+        }
+        if (
+            active.data.current.type === "task" &&
+            over.data.current.type === "column"
+        ) {
+            const taskContainerCopy = [...taskContainer];
+            taskContainerCopy[activeTaskIndex] = { ...taskContainerCopy[activeTaskIndex], columnId: overId }
+
+            dispatch(
+                sortTasks(
+                    arrayMove(
+                        [...taskContainerCopy],
+                        activeTaskIndex,
+                        activeTaskIndex
+                    )
+                )
+            );
+            return
         }
     };
 
@@ -123,10 +171,12 @@ const ItemBoards = () => {
         const overColumnIndex = listColumns.findIndex(
             (column) => column.id === overId
         );
+
         if (
             active.data.current.type === "column" &&
             over.data.current.type === "column"
-        )
+        ) {
+
             dispatch(
                 sortColumns(
                     arrayMove(
@@ -136,6 +186,8 @@ const ItemBoards = () => {
                     )
                 )
             );
+        }
+
     };
     return (
         <div
@@ -154,14 +206,15 @@ const ItemBoards = () => {
                 {/* title board */}
                 <TitleBoard itemBoard={itemBoard} isShowLeftBar={isShowLeftBar}/>
                 
-
-                <div className="absolute h-[var(--height-container-column)] flex gap-[10px] left-0 top-[58px] bottom-0 z-[3] w-full overflow-x-scroll">
-                    <div className="flex items-start flex-nowrap gap-[10px] pt-[15px] pl-[10px]">
-                    <DndContext
+                <DndContext
                         onDragStart={onDragStart}
-                        onDragEnd={onDragEnd}
+                            onDragEnd={onDragEnd}
+                            onDragOver={onDragOver}
                         sensors={sensor}
                     >
+                <div className="absolute h-[var(--height-container-column)] flex gap-[10px] left-0 top-[58px] right-0 z-[3] w-full overflow-x-scroll">
+                    <div className="flex items-start flex-nowrap gap-[10px] pt-[15px] pl-[10px]">
+                    
                         <SortableContext items={listColumId}>
                                 {listColumnCurrent.map((column) => (
                                     <ColumnItem
@@ -191,7 +244,7 @@ const ItemBoards = () => {
                                 <TaskItem task={activeTask} rotate />
                             )}
                         </DragOverlay>
-                    </DndContext>
+                    
                     </div>
                     {/* create column */}
                     <CreateColumn
@@ -199,7 +252,7 @@ const ItemBoards = () => {
                     />
                     
                 </div>
-
+                </DndContext>
                 {/* background */}
                 {itemBoard?.backgroundImg && (
                     <img
