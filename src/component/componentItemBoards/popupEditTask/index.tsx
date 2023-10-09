@@ -174,6 +174,7 @@ const PopupEditTask = () => {
                 title: titleTask as string,
             })
         );
+
     };
     const isShowContent = () => {
         setToggleShowContent(!toggleShowContent);
@@ -191,11 +192,6 @@ const PopupEditTask = () => {
                             onBlur={handleChangeTitleCard}
                             onChange={(e) => setTitleTask(e.target.value)}
                             value={titleTask}
-                            onKeyDown={() => {
-                                // if (e.key === "Enter") {
-                                //     handleChangeTitleCard()
-                                // }
-                            }}
                         >
                             {titleTask}
                         </textarea>

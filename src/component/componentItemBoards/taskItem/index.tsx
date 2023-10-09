@@ -1,14 +1,14 @@
 import { useDispatch } from 'react-redux'
-import { setDateComplete, setIdTaskEdit } from '../../../store/reducer'
-import { Task } from '../../../type'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import dayjs from 'dayjs';
+
 import { AiFillCreditCard } from "react-icons/ai";
 import { BsCheck } from "react-icons/bs";
-
-import dayjs from 'dayjs';
 import { IoMdTime } from "react-icons/io";
 
+import { setDateComplete, setIdTaskEdit } from '../../../store/reducer'
+import { Task } from '../../../type'
 
 interface Prop {
   task: Task
@@ -18,6 +18,7 @@ interface Prop {
 const TaskItem = (prop: Prop) => {
   const { task, rotate } = prop
   const dispatch = useDispatch()
+
   const {
     attributes,
     listeners,
@@ -32,6 +33,8 @@ const TaskItem = (prop: Prop) => {
         task
     }
 });
+
+  // time current and due soon and due date
   const dateCurrent = dayjs(`${dayjs().year()}-${dayjs().month()}-${dayjs().date()}`).minute(+dayjs().minute()).hour(+dayjs().hour()).valueOf()
   const dueSoon = dayjs(`${dayjs().year()}-${dayjs().month()}-${dayjs().date() + 1}`).minute(+dayjs().minute()).hour(+dayjs().hour()).valueOf()
   const dueDate = task.dates && dayjs(`${task.dates.year}-${task.dates.month}-${task.dates.day}`).minute(+task.dates.minute).hour(+task.dates.hour).valueOf()
@@ -40,21 +43,26 @@ const TaskItem = (prop: Prop) => {
     transform: CSS.Transform.toString(transform),
     transition,
   };
+
+  // handle send id task edit
   const editContent = (id: string) => {
     dispatch(setIdTaskEdit(id))
   }
   
+  // handle date complete
   const handleDateComplete = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation()
     dispatch(setDateComplete({id: task.id, dateComplete: !task.dates?.dateComplete}))
   }
+
+  // shadow task when drag
   if (isDragging) {
-    
     return <div ref={setNodeRef} style={style} className='min-h-[36px] p-[8px] mb-[8px] break-words bg-[#44444427] rounded-[7px] overflow-x-hidden'>
       <p className='invisible text-sm'>{task.title}</p>
     </div>
 
   }
+
   return (
     <>
       <div ref={setNodeRef} className={` bg-[#2c2c2c] hover:bg-[#414141] break-words min-h-[36px] p-[8px] overflow-x-hidden ${rotate && "rotate-[3deg] shadow bg-[#414141]"}  rounded-[7px] mb-[8px] cursor-pointer text-sm`}
@@ -63,9 +71,11 @@ const TaskItem = (prop: Prop) => {
         {...listeners}
       onClick={() => editContent(task.id)}
       >
+        {/* task title */}
         {task.title}
         <div className='flex gap-2 items-center text-[16px] pt-[2px] px-[3px]'>
           
+          {/* show date in task */}
           {task.dates?.isShow &&
             <div
               className={`${task.dates?.dateComplete ? "bg-color-date-completed text-black" :
@@ -84,27 +94,27 @@ const TaskItem = (prop: Prop) => {
                   dateCurrent < dueDate && dueDate < dueSoon ? "border-black text-black" : "border-bg-background-box"
                     
                 }
+                `}>
                   
-                  `}>
+                  {/* checked */}
                   {task.dates.dateComplete && <BsCheck />}
                 </div>
-  
+                
+                {/* icon oclock */}
                 <div className='group/edit block group-hover/item:hidden'>
                   <IoMdTime />
                 </div>
               </div>
               
+              {/* visible time */}
               <p className='px-[4px] text-[12px]'>{task.dates?.day} {task.dates?.monthWord} {task.dates?.year}</p>
             </div>
           }
-        {task.content && (
-            <AiFillCreditCard />
-          )}
-          
+
+          {/* icon when have content task */}
+          {task.content && <AiFillCreditCard />}
         </div>
-        
       </div>
-      
     </>
 
   )

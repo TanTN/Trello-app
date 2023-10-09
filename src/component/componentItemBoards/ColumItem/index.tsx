@@ -1,12 +1,14 @@
-import { useState } from "react";
-import { Column, Task } from "../../../type";
-import TaskItem from "../taskItem";
+import { useMemo, useState } from "react";
+import { useDispatch } from "react-redux";
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useDispatch } from "react-redux";
-import { changeTitleColumn,deleteColumn } from "../../../store/reducer";
+
+import { BsTrash } from "react-icons/bs"
+
+import TaskItem from "../taskItem";
 import CreateCard from "../createCard";
-import {BsTrash} from "react-icons/bs"
+import { changeTitleColumn,deleteColumn } from "../../../store/reducer";
+import { Column, Task } from "../../../type";
 interface Prop {
     column: Column;
     taskContainer: Task[];
@@ -16,13 +18,10 @@ interface Prop {
 }
 
 const ColumnItem = (prop: Prop) => {
-    const { column, taskContainer, rotate ,idColumnAddCard, handleSetIdColumnAddCard} = prop;
+    const { column, taskContainer, rotate, idColumnAddCard, handleSetIdColumnAddCard } = prop;
     const dispatch = useDispatch();
-    const taskContainerCurrent = taskContainer.filter(
-        (task) => task.columnId === column.id
-    );
-
-    const listTaskId = taskContainerCurrent.map((task) => task.id);
+    const taskContainerCurrent = useMemo(() => taskContainer.filter((task) => task.columnId === column.id),[taskContainer]);
+    const listTaskId = useMemo(() => taskContainerCurrent.map((task) => task.id),[taskContainerCurrent]);
 
     const [titleColumn, setTitleColumn] = useState<string>(column.title);
     const [isEditTitleColumn, setIsEditTitleColumn] = useState<boolean>(false)
@@ -43,6 +42,7 @@ const ColumnItem = (prop: Prop) => {
         },
     });
 
+    // delete column
     const handleDeleteColumn = () => {
         dispatch(deleteColumn(column.id));
     }
@@ -52,12 +52,14 @@ const ColumnItem = (prop: Prop) => {
         transition,
     };
 
+    // edit title column
     const handleChangeTitleColumn = () => {
         if (titleColumn) { 
             dispatch(changeTitleColumn({id: column.id, title:titleColumn}))
         }
     }
     
+    // shadow of column when drag
     if (isDragging) {
         return (
             <div
@@ -110,21 +112,24 @@ const ColumnItem = (prop: Prop) => {
             >
 
             {!isEditTitleColumn ?
-            <div
+
+                // title
+                <div
                 className="flex-1 px-[6px] py-[4px]"
-                
-                    
                 onClick={() => setIsEditTitleColumn(true)}
-            >
-                    <div className="hiddenLineLong1 h-[24px] overflow-hidden border-[2px] border-[transparent] text-sm">{column.title}</div>
-                    
-            </div> :
+                >
+                    <div className="hiddenLineLong1 h-[24px] overflow-hidden border-[2px] border-[transparent] text-sm">
+                        {column.title}
+                    </div>
+
+                </div>
+                :
+                // edit title column
                 <div className="flex-1">
                     <input
                         type="text"
                         className="w-full px-[6px] py-[4px] rounded-[8px] text-sm bg-background-box-hover outline-none border-[2px] border-border-input-color"
                         value={titleColumn}
-                        autoFocus
                         onChange={(e) => setTitleColumn(e.target.value.trimStart())}
                         onKeyDown={(e) => {
                             if (e.key == "Enter") {
@@ -136,15 +141,22 @@ const ColumnItem = (prop: Prop) => {
                             handleChangeTitleColumn()
                             setIsEditTitleColumn(false)
                         }}
+                        autoFocus
                     />
                 </div>
-                }
-                <div className="px-[5px] py-[5px] cursor-pointer rounded-[3px] hover:bg-background-box-hover"
+            }
+                {/* delete column */}
+                <div 
+                className="px-[5px] py-[5px] cursor-pointer rounded-[3px] hover:bg-background-box-hover"
                 onClick={handleDeleteColumn}
-                ><BsTrash /></div>
+                >
+                    <BsTrash />
+                </div>
             </div>
 
             <div className="colorScrollBar max-h-[740px] overflow-y-auto">
+
+                {/* render tasks */}
                 <div className="px-[10px]">
                     <SortableContext items={listTaskId}>
                         {taskContainerCurrent.map((task) => (
@@ -161,8 +173,6 @@ const ColumnItem = (prop: Prop) => {
     
                 />
             </div>
-
-            
         </div>
     );
 };

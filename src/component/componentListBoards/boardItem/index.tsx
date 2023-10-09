@@ -9,17 +9,17 @@ import {
     updateIsStarHistory,
 } from "../../../store/reducer";
 
-
-
 interface Prop {
     board: Board;
     star?: boolean;
 }
-const WorkspaceItem = (prop: Prop) => {
+
+const BoardItem = (prop: Prop) => {
     const { board, star } = prop;
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    // handle star on the board
     const handleStarBoard = (
         e: React.MouseEvent<HTMLDivElement, MouseEvent>
     ) => {
@@ -30,6 +30,7 @@ const WorkspaceItem = (prop: Prop) => {
         );
     };
 
+    // go to detail board
     const detailBoard = () => {
         navigate(`/itemBoard/${board.id}`);
         dispatch(addBoardInHistory(board));
@@ -40,15 +41,17 @@ const WorkspaceItem = (prop: Prop) => {
             className={`${board.backgroundColor} group/item cursor-pointer h-[127px] w-full relative transition-all overflow-hidden rounded-md hover:brightness-[0.9]`}
             onClick={detailBoard}
         >
+            {/* background */}
             {board.backgroundImg && (
                 <img src={board.backgroundImg} alt="image" />
             )}
+
             {/* title */}
             <p className="hiddenLineLong2 absolute top-[10px] left-[10px] right-[10px] text-[18px] leading-[18px] font-medium text-white">
                 {board.title}
             </p>
 
-            {/* visible trello workspace */}
+            {/* visible trello workspace when has star */}
             {board.isStar && star && (
                 <div className=" absolute bottom-[10px] left-[10px] text-[14px] leading-[14px] text-[#e4e4e4]">
                     Trello workspace
@@ -74,4 +77,4 @@ const WorkspaceItem = (prop: Prop) => {
     );
 };
 
-export default WorkspaceItem;
+export default BoardItem;

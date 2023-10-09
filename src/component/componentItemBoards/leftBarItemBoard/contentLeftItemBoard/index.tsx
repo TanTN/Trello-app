@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState  } from "react";
-import { Board } from "../../../../type";
 import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import { AiOutlineStar, AiFillStar, AiOutlineMore,AiOutlineClose } from "react-icons/ai";
 
-
-import { useDispatch } from "react-redux";
+import { Board } from "../../../../type";
 import {
     updateIsStarHistory,
     updateIsStar,
@@ -21,13 +20,15 @@ const ContentLeftItemBoard = (prop: Prop) => {
     const { boardId } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const moreElement = useRef<HTMLDivElement>(null);
+    const moreButton = useRef<HTMLDivElement>(null);
 
     const [boardShowMore, setBoardShowMore] = useState<string | null>("");
     const [idHoverBoartItem, setIdHoverBoardItem] = useState<string | null>("")
 
-    const moreElement = useRef<HTMLDivElement>(null);
-    const moreButton = useRef<HTMLDivElement>(null);
     const listBoardNoStar: Board[] = [];
+
+    // array of board sorted by star
     const sortListBoard = [...listBoard]
         .filter((board) => {
             if (!board.isStar) {
@@ -37,11 +38,13 @@ const ContentLeftItemBoard = (prop: Prop) => {
         })
         .concat(listBoardNoStar);
 
+    // handle click star of board
     const updateIsStarBoard = (id: string, isStar: boolean) => {
         dispatch(updateIsStar({ id, isStar: !isStar }));
         dispatch(updateIsStarHistory({ id, isStar: !isStar }));
     };
     
+    // show more of board
     const isShowMore = (id: string) => {
         if (boardShowMore == id) {
             setBoardShowMore(null);
@@ -49,16 +52,16 @@ const ContentLeftItemBoard = (prop: Prop) => {
             setBoardShowMore(id);
         }
     };
+
+    // handle click out more of board
     useEffect(() => {
         const handleClickOutMore = (e: globalThis.MouseEvent) => {
             const target = e.target as HTMLElement;
-            
             const isSideOut = moreElement.current?.contains(target)
             const isClickButtonMore = moreButton.current?.contains(target)
             
             if (!isSideOut && !isClickButtonMore) {
                 setBoardShowMore(null);
-                
             }
         }
         document.addEventListener("mousedown",handleClickOutMore)
@@ -67,12 +70,12 @@ const ContentLeftItemBoard = (prop: Prop) => {
         }
     }, [])
     
+    // close more
     const handleCloseMore = () => {
-        
             setBoardShowMore(null);
-        
     }
 
+    // delete board in more
     const handleDeleteBoard = (id: string) => {
         dispatch(deleteBoard(id));
         if (id == boardId) {
@@ -80,9 +83,11 @@ const ContentLeftItemBoard = (prop: Prop) => {
         }
     };
 
+    // navigate board
     const changeBoard = (id: string) => {
         navigate(`/itemBoard/${id}`);
     };
+
     return (
         <div className="w-full">
             <p className="px-[12px] py-[4px] text-sm font-medium h-[32px] w-full">
@@ -90,6 +95,8 @@ const ContentLeftItemBoard = (prop: Prop) => {
             </p>
 
             <div className="w-full">
+
+                {/* render boards in left bar container boards */}
                 {sortListBoard.map((board) => (
                     <div
                         key={board.id}
@@ -116,7 +123,7 @@ const ContentLeftItemBoard = (prop: Prop) => {
                                     )}
                                 </div>
 
-                            {/* title */}
+                            {/* title board */}
                             <div className="hiddenLineLong1 flex-1 text-sm">{board.title}</div>
                         </div>
 
@@ -134,7 +141,6 @@ const ContentLeftItemBoard = (prop: Prop) => {
                                 onClick={() => isShowMore(board.id)}
                             >
                                 <AiOutlineMore />
-
                             </div>
                                 
 
@@ -156,30 +162,37 @@ const ContentLeftItemBoard = (prop: Prop) => {
                                 )}
                             </div>
                         </div>
+
+                        {/* show more */}
                         {boardShowMore == board.id && ( 
-                                    <div
-                                        ref={moreElement}
-                                        className="absolute z-[300] top-[120%] left-[80%] w-[304px] h-[92px] bg-[#282e33] rounded-[6px] border-[1px] border-[#464646]"
-                                        
-                                        onMouseEnter={() => setIdHoverBoardItem(null)}
+                            <div
+                                ref={moreElement}
+                                className="absolute z-[300] top-[120%] left-[80%] w-[304px] h-[92px] bg-[#282e33] rounded-[6px] border-[1px] border-[#464646]"
+                                onMouseEnter={() => setIdHoverBoardItem(null)}
+                            >
+                                <div className="relative h-[48px] text-[14px] px-[40px]">
+                                    <div className="hiddenLineLong1 w-full text-center leading-[48px]">{board.title}</div>
+
+                                    {/* close more */}
+                                    <div className="closeMore flex justify-center items-center absolute top-[11px] right-[10px] w-[26px] h-[26px] rounded-[7px] cursor-pointer hover:bg-background-box-hover text-[15px]"
+                                    onClick={handleCloseMore}
                                     >
-                                        <div className="relative h-[48px] text-[14px] px-[40px]">
-                                            <div className="hiddenLineLong1 w-full text-center leading-[48px]">{board.title}</div>
-                                            <div className="closeMore flex justify-center items-center absolute top-[11px] right-[10px] w-[26px] h-[26px] rounded-[7px] cursor-pointer hover:bg-background-box-hover text-[15px]"
-                                            onClick={handleCloseMore}
-                                            ><AiOutlineClose /></div>
-                                        </div>
-                                        <div
-                                            className="h-[36px] hover:bg-background-box-hover cursor-pointer rounded-[6px] py-[8px] px-[12px] text-[14px] mb-[8px] font-medium"
-                                            onClick={() =>
-                                                handleDeleteBoard(board.id)
-                                            }
-                                            onMouseEnter={() => setIdHoverBoardItem(null)}
-                                        >
-                                            Close board
-                                        </div>
+                                        <AiOutlineClose />
                                     </div>
-                                )}
+                                </div>
+
+                                {/* delete board */}
+                                <div
+                                    className="h-[36px] hover:bg-background-box-hover cursor-pointer rounded-[6px] py-[8px] px-[12px] text-[14px] mb-[8px] font-medium"
+                                    onClick={() =>
+                                        handleDeleteBoard(board.id)
+                                    }
+                                    onMouseEnter={() => setIdHoverBoardItem(null)}
+                                >
+                                    Close board
+                                </div>
+                            </div>
+                        )}
                     </div>
                 ))}
             </div>

@@ -1,8 +1,7 @@
-import {  useState } from "react";
+import {  useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Board, Column, InitialState, Task } from "../../type";
-import ColumnItem from "../../component/componentItemBoards/ColumItem";
+
 import {
     DndContext,
     // DragEndEvent,
@@ -15,8 +14,8 @@ import {
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 
-
-
+import { Board, Column, InitialState, Task } from "../../type";
+import ColumnItem from "../../component/componentItemBoards/ColumItem";
 import { sortColumns, sortTasks } from "../../store/reducer";
 import TaskItem from "../../component/componentItemBoards/taskItem";
 import CreateColumn from "../../component/componentItemBoards/createColumn";
@@ -30,34 +29,35 @@ const ItemBoards = () => {
     const listBoard = useSelector(
         (state: { workspace: InitialState }) => state.workspace.boardContainers
     );
-
     const taskContainer = useSelector(
         (state: { workspace: InitialState }) => state.workspace.taskContainers
     );
     const idTaskEdit = useSelector(
         (state: { workspace: InitialState }) => state.workspace.editTask.id
     )
+    const listColumns = useSelector(
+        (state: { workspace: InitialState }) => state.workspace.columnContainers
+    );
+
 
     const [activeColumn, setActiveColumn] = useState<Column | null>(null);
     const [activeTask, setActiveTask] = useState<Task | null>(null);
     const [idColumnAddCard, setColumnIdAddCard] = useState<string | null>("");
     const [isShowLeftBar,setIsShowLeftBar] = useState<boolean>(false)
 
-    const itemBoard = listBoard.find((board) => board.id == boardId) as Board;
-    const listColumns = useSelector(
-        (state: { workspace: InitialState }) => state.workspace.columnContainers
-    );
+    const itemBoard = useMemo(() => listBoard.find((board) => board.id == boardId) as Board ,[listBoard]);
 
+    const listColumnCurrent = useMemo(() => listColumns.filter(
+        (column) => column.boardId == boardId
+    ),[listColumns]);
 
+    const listColumId = useMemo(() => listColumnCurrent.map((column) => column.id), [listColumnCurrent]);
+    
+    // handle show left bar board item
     const showLeft = (isShowLeft: boolean) => {
         setIsShowLeftBar(isShowLeft);
     }
-    const listColumnCurrent = listColumns.filter(
-        (column) => column.boardId == boardId
-    );
-
-    const listColumId = listColumnCurrent.map((column) => column.id);
-
+    // id colum show textarea create task
     const handleSetIdColumnAddCard = (id: string | null) => {
         if (idColumnAddCard === id) {
             setColumnIdAddCard(null);
@@ -66,7 +66,7 @@ const ItemBoards = () => {
         }
     };
 
-
+    // handle drag and drop
     const sensor = useSensors(
         useSensor(PointerSensor, {
             activationConstraint: { distance: 3 },
@@ -103,9 +103,7 @@ const ItemBoards = () => {
         const overColumnIndex = listColumns.findIndex(
             (column) => column.id === overId
         );
-        console.log("active:", active.data.current?.type)
-        console.log("over:", over.data.current?.type)
-        console.log(overId)
+
         if (
             active.data.current?.type === "column" &&
             over.data.current?.type === "column"
@@ -120,6 +118,7 @@ const ItemBoards = () => {
                     )
                 )
             );
+            return
         }
  
         if (
@@ -206,16 +205,17 @@ const ItemBoards = () => {
                 {/* title board */}
                 <TitleBoard itemBoard={itemBoard} isShowLeftBar={isShowLeftBar}/>
                 
+                {/* container column */}
                 <DndContext
-                        onDragStart={onDragStart}
-                            // onDragEnd={onDragEnd}
-                            onDragOver={onDragOver}
-                        sensors={sensor}
-                    >
-                <div className="absolute h-[var(--height-container-column)] flex gap-[10px] left-0 top-[58px] right-0 z-[3] w-full overflow-x-scroll">
-                    <div className="flex items-start flex-nowrap gap-[10px] pt-[15px] pl-[10px]">
-                    
-                        <SortableContext items={listColumId}>
+                    onDragStart={onDragStart}
+                    // onDragEnd={onDragEnd}
+                    onDragOver={onDragOver}
+                    sensors={sensor}
+                >
+                    <div className="absolute h-[var(--height-container-column)] flex gap-[10px] left-0 top-[58px] right-0 z-[3] w-full overflow-x-scroll">
+                        <div className="flex items-start flex-nowrap gap-[10px] pt-[15px] pl-[10px]">
+                            {/* render columns */}
+                            <SortableContext items={listColumId}>
                                 {listColumnCurrent.map((column) => (
                                     <ColumnItem
                                         key={column.id}
@@ -223,36 +223,39 @@ const ItemBoards = () => {
                                         taskContainer={taskContainer}
                                         idColumnAddCard={idColumnAddCard}
                                         handleSetIdColumnAddCard={
-                                            handleSetIdColumnAddCard
+                                        handleSetIdColumnAddCard
                                         }
                                     />
                                 ))}
-                        </SortableContext>
-                        <DragOverlay>
-                            {activeColumn && (
-                                <ColumnItem
-                                    column={activeColumn}
-                                    taskContainer={taskContainer}
-                                    idColumnAddCard={idColumnAddCard}
-                                    handleSetIdColumnAddCard={
-                                        handleSetIdColumnAddCard
-                                    }
-                                    rotate
-                                />
-                            )}
-                            {activeTask && (
-                                <TaskItem task={activeTask} rotate />
-                            )}
-                        </DragOverlay>
-                    
+                            </SortableContext>
+                                    
+                            {/* column or task drag */}
+                            <DragOverlay>
+                                {activeColumn && (
+                                    <ColumnItem
+                                        column={activeColumn}
+                                        taskContainer={taskContainer}
+                                        idColumnAddCard={idColumnAddCard}
+                                        handleSetIdColumnAddCard={
+                                            handleSetIdColumnAddCard
+                                        }
+                                        rotate
+                                    />
+                                )}
+                                {activeTask && (
+                                    <TaskItem task={activeTask} rotate />
+                                )}
+                            </DragOverlay>
+                                
+                        </div>
+                                    
+                        {/* button create column */}
+                        <CreateColumn
+                            boardId={boardId}
+                        />
                     </div>
-                    {/* create column */}
-                    <CreateColumn
-                        boardId={boardId}
-                    />
-                    
-                </div>
                 </DndContext>
+
                 {/* background */}
                 {itemBoard?.backgroundImg && (
                     <img
@@ -261,6 +264,8 @@ const ItemBoards = () => {
                         className="fixed right-0 left-0 bottom-0 top-0 z-[-100] w-full h-full object-cover"
                     />
                 )}
+
+                {/* visible popup edit task */}
                 {idTaskEdit && <PopupEditTask />}
                 
             </div>

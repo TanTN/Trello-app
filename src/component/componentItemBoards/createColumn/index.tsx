@@ -1,20 +1,23 @@
-import { addColumn } from "../../../store/reducer";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
+
 import { AiOutlinePlus, AiOutlineClose } from "react-icons/ai";
 
+import { addColumn } from "../../../store/reducer";
 interface Prop {
     boardId: string | undefined;
 }
+
 const CreateColumn = (prop: Prop) => {
     const { boardId } = prop;
-    const dispatch = useDispatch();
-    const [isShowCreateColumn, setIsShowCreateColumn] =
-        useState<boolean>(false);
-    const [titleBoard, setTitlesBoard] = useState<string>("");
     const createColumn = useRef<HTMLDivElement>(null)
+    const dispatch = useDispatch();
 
+    const [isShowCreateColumn, setIsShowCreateColumn] = useState<boolean>(false);
+    const [titleBoard, setTitlesBoard] = useState<string>("");
+
+    // close or open section create column
     useEffect(() => {
         const handleClickInCreateColumn = (e: globalThis.MouseEvent) => {
             const target = e.target as HTMLElement;
@@ -30,6 +33,7 @@ const CreateColumn = (prop: Prop) => {
         }
     },[])
 
+    // handle add column on board
     const handleAddColumn = () => {
         if (titleBoard) {
             const newBoard = {
@@ -41,6 +45,7 @@ const CreateColumn = (prop: Prop) => {
             setTitlesBoard("");
         }
     };
+
     return (
         <div className="transition-all relative mt-[15px] w-[272px] h-[48px] mr-[10px]">
             <div
@@ -62,6 +67,8 @@ const CreateColumn = (prop: Prop) => {
                 {/*show form create column */}
                 {isShowCreateColumn && (
                     <div ref={createColumn}>
+
+                        {/* input new title */}
                         <input
                             type="text"
                             className="outline-none border-[2px] border-[#0189f8] rounded-[3px] bg-background-box px-[6px] py-[4px] text-sm w-full"
@@ -76,13 +83,17 @@ const CreateColumn = (prop: Prop) => {
                                 }
                             }}
                         />
+
                         <div className="flex items-center gap-2 mt-[8px]">
+                            {/* button add column */}
                             <button
                                 className="w-[73px] h-[32px] bg-create-button-background hover:bg-create-button-background-hovered text-black text-sm rounded-[4px]"
                                 onClick={handleAddColumn}
                             >
                                 Add list
                             </button>
+
+                            {/* close form */}
                             <div
                                 className="text-[20px] cursor-pointer"
                                 onClick={(e) => {

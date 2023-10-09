@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import CreateWorkspace from "../../component/componentListBoards/createWorkspace";
+import CreateWorkspace from "../../component/componentListBoards/createBoard";
 
 const Header = () => {
     return (

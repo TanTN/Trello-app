@@ -15,13 +15,14 @@ const LefBarItemBoard = (prop: Prop) => {
         showLeft(!isShowListBoard)
     };
 
-  return (
-      <>
-          <nav
+    return (
+        <>
+            <nav
                 className={`relative ${
                     isShowListBoard ? "w-[260px]" : "w-[0px]"
                 } bg-bgColor transition-all duration-[.2s] ease-in-out`}
             >
+                {/* header left bar in boards */}
                 {isShowListBoard && (
                     <>
                         <div className="flex items-center gap-2 h-[57px] w-full px-[8px] py-[12px]">
@@ -36,7 +37,6 @@ const LefBarItemBoard = (prop: Prop) => {
                             </div>
                         </div>
                         <ContentLeftItemBoard listBoard={listBoard} />
-
                         {/* icon hidden */}
                         <div
                             className="absolute flex justify-center items-center text-[20px] cursor-pointer top-[15px] right-[15px] hover:bg-background-box-hover w-[28px] h-[28px]"
@@ -47,7 +47,7 @@ const LefBarItemBoard = (prop: Prop) => {
                     </>
                 )}
             </nav>
-            {/* hidden list workspace */}
+            {/* then hidden list board */}
             {!isShowListBoard && (
                 <div
                     className="group/item relative w-[16px] bg-bgColor"
@@ -58,8 +58,8 @@ const LefBarItemBoard = (prop: Prop) => {
                     </div>
                 </div>
             )}
-    </>
-  )
+        </>
+    )
 }
 
 export default LefBarItemBoard

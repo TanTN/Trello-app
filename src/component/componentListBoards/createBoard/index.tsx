@@ -1,6 +1,7 @@
 import { ReactElement, useState,useEffect } from "react";
 import Tippy from "@tippyjs/react/headless";
 import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router-dom";
 
 import { AiOutlineCheck } from "react-icons/ai";
 import { RiMoreFill } from "react-icons/ri";
@@ -9,9 +10,8 @@ import { AiOutlineClose } from "react-icons/ai";
 import { listImages } from "../../../assets";
 import { useDispatch } from "react-redux";
 import { addBoard, addBoardInHistory } from "../../../store/reducer";
-import { useNavigate } from "react-router-dom";
 
-const CreateWorkspace = ({ children, offsetButtonHeader }: { children: ReactElement;  offsetButtonHeader? :boolean}) => {
+const CreateBoard = ({ children, offsetButtonHeader }: { children: ReactElement;  offsetButtonHeader? :boolean}) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -26,6 +26,7 @@ const CreateWorkspace = ({ children, offsetButtonHeader }: { children: ReactElem
     const [title, setTitle] = useState<string>("");
     const [isShowPopup, seIsShowPopup] = useState<boolean>(false);
 
+    // class visible background color
     const listColor: string[] = [
         "color1",
         "color2",
@@ -34,11 +35,12 @@ const CreateWorkspace = ({ children, offsetButtonHeader }: { children: ReactElem
         "color5",
     ];
 
+    // invisible popup create whin drop close on Tippy
     useEffect(() => {
         seIsShowPopup(false)
     },[isShowPopup])
     
-    const createWorkspace = () => {
+    const handleAddBoard = () => {
         if (title) {
             const id = uuidv4();
             if (bgColorActiveIndex >= 0) {
@@ -72,7 +74,7 @@ const CreateWorkspace = ({ children, offsetButtonHeader }: { children: ReactElem
         }
     };
     const customTippy = isShowPopup ? { visible: false } : { trigger: "mousedown" }
-    
+    console.log(backgroundColor)
     return (
         <Tippy
         delay={[100, 0]}
@@ -93,9 +95,9 @@ const CreateWorkspace = ({ children, offsetButtonHeader }: { children: ReactElem
                     <div className="px-[12px] pb-[12px]">
                         {/* background active */}
                         <div
-                            className={`${backgroundColor} mb-[8px] w-[200px] h-[128px] mx-auto bg-cover rounded-[4px]`}
+                            className={`${backgroundColor} color1 mb-[8px] w-[200px] h-[128px] mx-auto bg-cover rounded-[4px]`}
                         >
-                            {(bgImgActiveIndex || bgImgActiveIndex == 0) && (
+                            {backgroundImg && (
                                 <img
                                     src={backgroundImg ?? ""}
                                     className="w-full h-full"
@@ -116,6 +118,7 @@ const CreateWorkspace = ({ children, offsetButtonHeader }: { children: ReactElem
                                         setBackgroundImg(image);
                                         setBgImgActiveIndex(index);
                                         setBgColorActiveIndex(-1);
+                                        setBackgroundColor(null)
                                     }}
                                     className="relative w-full h-[40px]"
                                 >
@@ -143,6 +146,7 @@ const CreateWorkspace = ({ children, offsetButtonHeader }: { children: ReactElem
                                         setBackgroundColor(color);
                                         setBgColorActiveIndex(index);
                                         setBgImgActiveIndex(-1);
+                                        setBackgroundImg(null)
                                     }}
                                 >
                                     {bgColorActiveIndex === index && (
@@ -189,7 +193,7 @@ const CreateWorkspace = ({ children, offsetButtonHeader }: { children: ReactElem
                                     ? "cursor-pointer hover:bg-background-box-hover"
                                     : "cursor-not-allowed hover:bg-background-box"
                             }`}
-                            onClick={createWorkspace}
+                            onClick={handleAddBoard}
                         >
                             Create
                         </button>
@@ -207,4 +211,4 @@ const CreateWorkspace = ({ children, offsetButtonHeader }: { children: ReactElem
     );
 };
 
-export default CreateWorkspace;
+export default CreateBoard;

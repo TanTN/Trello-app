@@ -4,23 +4,26 @@ import { AiOutlineStar } from "react-icons/ai";
 import { BsClockHistory } from "react-icons/bs";
 
 import { InitialState } from "../../type";
-import WorkspaceItem from "../../component/componentListBoards/workspaceItem";
-import CreateWorkspace from "../../component/componentListBoards/createWorkspace";
+import BoardItem from "../../component/componentListBoards/boardItem";
+import CreateBoard from "../../component/componentListBoards/createBoard";
 import LeftBar from "../../layout/leftbar";
 
 const ListBoards = () => {
-
+    
     const boardContainers = useSelector(
         (state: { workspace: InitialState }) => state.workspace.boardContainers
     );
+
     const historyViewedList = useSelector(
         (state: { workspace: InitialState }) => state.workspace.historyViewed
     );
-    let count = 0
+
+    let count = 0;
 
     return (
         <div className=" bg-bgColor min-h-screen">
             <div className="grid grid-cols-12 gap-[40px] pt-[84px] w-[1118px] mx-auto">
+
                 {/* leftbar */}
                 <nav className="sticky top-[84px] h-[var(--height-leftbar)] overflow-y-hidden col-span-3">
                     <LeftBar />
@@ -41,7 +44,7 @@ const ListBoards = () => {
                             {boardContainers.map((board, index) => {
                                 if (board.isStar) {
                                     return (
-                                        <WorkspaceItem
+                                        <BoardItem
                                             key={index}
                                             star
                                             board={board}
@@ -63,13 +66,12 @@ const ListBoards = () => {
                             </div>
                         </div>
                         <div className="grid gap-x-[13px] grid-cols-4">
-                            {historyViewedList.map((board, index) => {
-                                if (!board.isStar) { 
-
+                            {historyViewedList?.map((board, index) => {
+                                if (!board.isStar) {
                                     if (count < 4) {
-                                        count++
+                                        count++;
                                         return (
-                                            <WorkspaceItem
+                                            <BoardItem
                                                 key={index}
                                                 board={board}
                                             />
@@ -84,17 +86,14 @@ const ListBoards = () => {
                     <div>
                         <h2 className="my-[20px]">YOUR WORKSPACES</h2>
                         <div className="grid gap-x-[13px] gap-y-[35px] grid-cols-4">
-                            {boardContainers.map((board, index) => (
-                                <WorkspaceItem
-                                    key={index}
-                                    board={board}
-                                />
+                            {boardContainers?.map((board, index) => (
+                                <BoardItem key={index} board={board} />
                             ))}
-                            <CreateWorkspace >
+                            <CreateBoard>
                                 <div className="flex items-center h-[127px] w-full cursor-pointer justify-center rounded-md transition-all bg-background-box hover:bg-background-box-hover">
                                     Create new board
                                 </div>
-                            </CreateWorkspace>
+                            </CreateBoard>
                         </div>
                     </div>
                 </section>
