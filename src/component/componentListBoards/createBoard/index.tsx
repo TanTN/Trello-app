@@ -35,7 +35,7 @@ const CreateBoard = ({ children, offsetButtonHeader }: { children: ReactElement;
         "color5",
     ];
 
-    // invisible popup create whin drop close on Tippy
+    // invisible popup create when drop close on Tippy
     useEffect(() => {
         seIsShowPopup(false)
     },[isShowPopup])
@@ -74,7 +74,7 @@ const CreateBoard = ({ children, offsetButtonHeader }: { children: ReactElement;
         }
     };
     const customTippy = isShowPopup ? { visible: false } : { trigger: "mousedown" }
-    console.log(backgroundColor)
+
     return (
         <Tippy
         delay={[100, 0]}
