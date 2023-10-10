@@ -7,10 +7,10 @@ import { editContentTask } from "../../../../store/reducer";
 import { Task } from "../../../../type";
 interface Prop {
     taskCurrent: Task ;
-    isShowContent: () => void
+    handleToggleShowContent: () => void
 }
 const Tiny = (prop: Prop) => {
-    const {taskCurrent, isShowContent} = prop;
+    const {taskCurrent, handleToggleShowContent} = prop;
     const [value, setValue] = useState<string | undefined>(taskCurrent.content);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -18,13 +18,13 @@ const Tiny = (prop: Prop) => {
 
     // add content to task current
     const addContentTask = () => {
-        isShowContent()
+        handleToggleShowContent()
         dispatch(editContentTask({id:taskCurrent.id as string, content:value}))
     };
 
     // handle close set content to task
     const cancelSetContentTask = () => {
-        isShowContent()
+        handleToggleShowContent()
     }
     return (
         <>

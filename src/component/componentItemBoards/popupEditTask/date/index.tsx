@@ -50,7 +50,7 @@ const Date = (prop: Prop) => {
     // handle remove date
     const handleRemoveDate = () => {
         dispatch(isRemoveDateTask({ id: idTask as string, isShow: false }));
-        handleCloseDatePopup();
+        handleCloseDatePopup()
     };
 
     // set date
