@@ -289,7 +289,7 @@ const PopupEditTask = () => {
                         contentElement={contentElement}
                     />
 
-                    {/* right bar edit task */}
+                    {/* right bar*/}
                     <div className=" w-[192px] pr-[16px]">
                         <p className="text-sm">Add to card</p>
                         

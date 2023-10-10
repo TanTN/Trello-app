@@ -84,7 +84,7 @@ const DateInViewPopupEditTask = (prop :Prop) => {
                                     Overdue
                                 </p>
                             ) : 
-                            dateCurrent < dueDate && dueDate < dueSoon ? (
+                            dateCurrent <= dueDate && dueDate <= dueSoon ? (
                                 <p className="px-[3px] bg-color-date-dueSoon rounded-sm text-[12px] text-black">
                                     Due soon
                                 </p>

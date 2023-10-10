@@ -80,7 +80,7 @@ const TaskItem = (prop: Prop) => {
             <div
               className={`${task.dates?.dateComplete ? "bg-color-date-completed text-black" :
                 dateCurrent > dueDate ? "bg-color-date-overdue text-black" :
-                  dateCurrent < dueDate && dueDate < dueSoon ? "bg-color-date-dueSoon text-black" : ""
+                  dateCurrent <= dueDate && dueDate <= dueSoon ? "bg-color-date-dueSoon text-black" : ""
                     
                 } group/item flex items-center rounded-sm`}
                 onClick={e => handleDateComplete(e)}
@@ -91,7 +91,7 @@ const TaskItem = (prop: Prop) => {
                   className={`group/edit hidden group-hover/item:flex items-center justify-center w-full h-full border-[1px] border-bg-background-box
                   ${task.dates?.dateComplete ? "border-black text-black" :
                   dateCurrent > dueDate ? "border-black text-black" :
-                  dateCurrent < dueDate && dueDate < dueSoon ? "border-black text-black" : "border-bg-background-box"
+                  dateCurrent <= dueDate && dueDate <= dueSoon ? "border-black text-black" : "border-bg-background-box"
                     
                 }
                 `}>
@@ -100,7 +100,7 @@ const TaskItem = (prop: Prop) => {
                   {task.dates.dateComplete && <BsCheck />}
                 </div>
                 
-                {/* icon oclock */}
+                {/* icon o'clock */}
                 <div className='group/edit block group-hover/item:hidden'>
                   <IoMdTime />
                 </div>
