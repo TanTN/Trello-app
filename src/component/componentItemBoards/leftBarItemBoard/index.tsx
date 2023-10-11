@@ -9,7 +9,9 @@ interface Prop {
 }
 const LefBarItemBoard = (prop: Prop) => {
     const {listBoard,showLeft} = prop
+
     const [isShowListBoard, setIsShowListBoard] = useState<boolean>(false);
+
     const showListBoard = () => {
         setIsShowListBoard(!isShowListBoard);
         showLeft(!isShowListBoard)
@@ -19,7 +21,7 @@ const LefBarItemBoard = (prop: Prop) => {
         <>
             <nav
                 className={`relative ${
-                    isShowListBoard ? "w-[260px]" : "w-[0px]"
+                    isShowListBoard ? "w-[var(--width-leftBar-boardItem)]" : "w-[0px]"
                 } bg-bgColor transition-all duration-[.2s] ease-in-out`}
             >
                 {/* header left bar in boards */}

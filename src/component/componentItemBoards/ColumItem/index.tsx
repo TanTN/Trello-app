@@ -154,7 +154,7 @@ const ColumnItem = (prop: Prop) => {
                 </div>
             </div>
 
-            <div className="colorScrollBar max-h-[740px] overflow-y-auto">
+            <div className="colorScrollBar max-h-[var(--height-list-task-pc)] overflow-y-auto max-md:max-h-[var(--height-list-task-mobile)]">
 
                 {/* render tasks */}
                 <div className="px-[10px]">

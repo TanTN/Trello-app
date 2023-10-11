@@ -46,6 +46,7 @@ const ItemBoards = () => {
     const [isShowLeftBar,setIsShowLeftBar] = useState<boolean>(false)
     const [isMobile, setIsMobile] = useState<boolean>(false);
 
+    // is mobile
     useEffect(() => {
         if (window.innerWidth < 768) {
             setIsMobile(true)

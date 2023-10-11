@@ -85,13 +85,13 @@ const CreateBoard = ({ children, offsetButtonHeader }: { children: ReactElement;
             navigate(`itemBoard/${id}`);
         }
     };
-    
+    console.log(offsetButtonHeader)
     return (
         <Tippy
         delay={[100, 0]}
         zIndex={1000}
         placement={offsetButtonHeader ? "bottom-end" : isMobile ? "top-end" : "right-end" }
-        offset={isMobile ? [0, -140] : [0,10]}
+        offset={offsetButtonHeader ? [0,10] : isMobile ? [0, -140] : [0,10]}
         interactive
         visible={isShowPopup}
         onClickOutside={() => setIsShowPopup(false)}
