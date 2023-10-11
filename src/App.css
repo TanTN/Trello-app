@@ -12,7 +12,7 @@
         --width-textarea-titleBoard-noShowLeft: calc(100vw - 253px - 70px);
         --height-container-column: calc(100vh - 62px - var(--height-header) - 5px);
         --height-list-task-pc: 740px;
-        --height-list-task-mobile: 670px;
+        --height-list-task-mobile: calc(var(--height-container-column) - 80px);
     }
     body {
         @apply p-0 m-0 box-border;
