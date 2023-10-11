@@ -22,7 +22,7 @@ const ListBoards = () => {
 
     return (
         <div className=" bg-bgColor min-h-screen max-md:px-[10px]">
-            <div className="grid grid-cols-12 gap-[40px] pt-[84px] w-[1118px] mx-auto max-md:w-full max-xl:w-[900px] max-xl:grid-cols-1">
+            <div className="grid grid-cols-12 gap-[40px] pt-[84px] w-[1118px] mx-auto max-md:w-full max-xl:w-[900px] max-xl:grid-cols-1 max-md:pt-[40px]">
 
                 {/* leftbar */}
                 <nav className="sticky top-[84px] h-[var(--height-leftbar)] overflow-y-hidden col-span-3 max-xl:hidden">
