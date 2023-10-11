@@ -24,7 +24,7 @@ const CreateBoard = ({ children, offsetButtonHeader }: { children: ReactElement;
         -1
     );
     const [title, setTitle] = useState<string>("");
-    const [isShowPopup, seIsShowPopup] = useState<boolean>(false);
+    const [isShowPopup, setIsShowPopup] = useState<boolean>(false);
     const [isMobile, setIsMobile] = useState<boolean>(false);
 
     useEffect(() => {
@@ -49,12 +49,6 @@ const CreateBoard = ({ children, offsetButtonHeader }: { children: ReactElement;
         "color5",
     ];
 
-    // invisible popup create when drop close on Tippy
-    useEffect(() => {
-        seIsShowPopup(false)
-    },[isShowPopup])
-    
-    // handle add board
     const handleAddBoard = () => {
         if (title) {
             const id = uuidv4();
@@ -91,16 +85,17 @@ const CreateBoard = ({ children, offsetButtonHeader }: { children: ReactElement;
             navigate(`itemBoard/${id}`);
         }
     };
-    const customTippy = isShowPopup ? { visible: false } : { trigger: "click" }
-
+    
     return (
         <Tippy
         delay={[100, 0]}
         zIndex={1000}
         placement={offsetButtonHeader ? "bottom-end" : isMobile ? "top-end" : "right-end" }
+        offset={isMobile ? [0, -140] : [0,10]}
         interactive
-        // trigger= "click"
-        {...customTippy}
+        visible={isShowPopup}
+        onClickOutside={() => setIsShowPopup(false)}
+        
         render={(attrs) => (
             <div
                 className="relative w-[304px] bg-[#282e33] rounded-[8px]"
@@ -215,7 +210,7 @@ const CreateBoard = ({ children, offsetButtonHeader }: { children: ReactElement;
                 </div>
                 <div className="absolute top-[10px] right-[10px] p-[5px] bg-background-box hover:bg-background-box-hover rounded-[4px] cursor-pointer"
                     onClick={() => {
-                        seIsShowPopup(true)
+                        setIsShowPopup(false)
                         setTitle("")
                     }
                 }
@@ -226,7 +221,9 @@ const CreateBoard = ({ children, offsetButtonHeader }: { children: ReactElement;
         )}
             
         >
-            {children}
+            <div onClick={() => setIsShowPopup(true)}>
+                {children}
+            </div>
         </Tippy>
     );
 };

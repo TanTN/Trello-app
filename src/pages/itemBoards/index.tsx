@@ -1,4 +1,4 @@
-import {  useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
@@ -203,7 +203,16 @@ const ItemBoards = () => {
 
     // };
 
-    // const drag = isMobile ? div  : DndContext
+    // no use drag for mobile
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const Drag : any  = isMobile ? "div"  : DndContext
+
+    const attributesDrag = isMobile ? {className: ""} : {
+        onDragStart:onDragStart,
+        onDragOver:onDragOver,
+        sensors:sensor
+    }
+
     return (
         <div
             className={`${itemBoard?.backgroundColor} flex relative bg-fix h-screen w-screen pt-[48px] overflow-hidden`}
@@ -222,11 +231,10 @@ const ItemBoards = () => {
                 <TitleBoard itemBoard={itemBoard} isShowLeftBar={isShowLeftBar}/>
                 
                 {/* container column */}
-                <DndContext
-                    onDragStart={onDragStart}
+                <Drag
+                    {...attributesDrag}
                     // onDragEnd={onDragEnd}
-                    onDragOver={onDragOver}
-                    sensors={sensor}
+                    
                 >
                     <div className="absolute h-[var(--height-container-column)] flex gap-[10px] left-0 top-[58px] right-0 z-[3] w-full overflow-x-scroll">
                         <div className="flex items-start flex-nowrap gap-[10px] pt-[15px] pl-[10px]">
@@ -270,7 +278,7 @@ const ItemBoards = () => {
                             boardId={boardId}
                         />
                     </div>
-                </DndContext>
+                </Drag>
 
                 {/* background */}
                 {itemBoard?.backgroundImg && (

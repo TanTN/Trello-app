@@ -43,7 +43,7 @@ const BoardItem = (prop: Prop) => {
         >
             {/* background */}
             {board.backgroundImg && (
-                <img src={board.backgroundImg} alt="image" />
+                <img src={board.backgroundImg} alt="image" className="h-full w-full"/>
             )}
 
             {/* title */}
