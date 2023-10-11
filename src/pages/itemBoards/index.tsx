@@ -1,4 +1,4 @@
-import {  useMemo, useState } from "react";
+import {  useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
@@ -44,8 +44,22 @@ const ItemBoards = () => {
     const [activeTask, setActiveTask] = useState<Task | null>(null);
     const [idColumnAddCard, setColumnIdAddCard] = useState<string | null>("");
     const [isShowLeftBar,setIsShowLeftBar] = useState<boolean>(false)
+    const [isMobile, setIsMobile] = useState<boolean>(false);
 
-    const itemBoard = useMemo(() => listBoard.find((board) => board.id == boardId) as Board ,[listBoard]);
+    useEffect(() => {
+        if (window.innerWidth < 768) {
+            setIsMobile(true)
+        }
+        const resizeWebView = () => {
+            if (window.innerWidth < 768) {
+                setIsMobile(true)
+            }
+        }
+        window.addEventListener("resize", resizeWebView)
+        return () => window.removeEventListener("resize",resizeWebView)
+    },[])
+
+    const itemBoard = useMemo(() => listBoard.find((board) => board.id == boardId) as Board ,[listBoard, boardId]);
 
     const listColumnCurrent = useMemo(() => listColumns.filter(
         (column) => column.boardId == boardId
@@ -188,6 +202,8 @@ const ItemBoards = () => {
     //     }
 
     // };
+
+    // const drag = isMobile ? div  : DndContext
     return (
         <div
             className={`${itemBoard?.backgroundColor} flex relative bg-fix h-screen w-screen pt-[48px] overflow-hidden`}

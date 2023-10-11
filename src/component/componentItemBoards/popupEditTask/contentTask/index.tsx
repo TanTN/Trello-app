@@ -28,8 +28,8 @@ const ContentTask = (prop : Prop) => {
     } = prop
     
     return (
-        <div className="flex-1 relative pl-[16px]">
-            <div className="ml-[40px] py-[8px] pl-[12px] text-[18px] font-medium">
+        <div className="flex-1 relative pl-[16px] max-md:pl-0 max-md:mr-[5px]">
+            <div className="ml-[40px] py-[8px] pl-[12px] text-[18px] font-medium max-md:ml-[20px] max-md:pr-[12px]">
                 <p>Description</p>
         
                 <div className="mt-[10px]">
@@ -51,7 +51,7 @@ const ContentTask = (prop : Prop) => {
                                 <div
                                 onClick={handleToggleShowContent}
                                 ref={contentElement}
-                                className="whitespace-pre-wrap break-words w-[488px] cursor-pointer max-h-[500px] overflow-y-hidden"
+                                className="whitespace-pre-wrap break-words cursor-pointer overflow-y-hidden md:w-[488px]"
                                 ></div>
                                 <div
                                     ref={buttonShowFullContentRef}
@@ -59,7 +59,7 @@ const ContentTask = (prop : Prop) => {
                                     onClick={handelShowAllContent}
                                 >
                                     <FiChevronDown />
-                                    <p className="text-[14px]">Show more</p>
+                                    <p className="text-[14px]">Show more</p>    
                                 </div>
                             </>
                         :
@@ -68,7 +68,7 @@ const ContentTask = (prop : Prop) => {
                                 <div
                                 onClick={handleToggleShowContent}
                                 ref={contentElement}
-                                className="whitespace-pre-wrap break-words w-[488px] cursor-pointer max-h-[500px] overflow-y-hidden"
+                                className="whitespace-pre-wrap break-words cursor-pointer overflow-y-hidden md:w-[488px]"
                                 ></div>
                                 <div
                                     ref={buttonShowFullContentRef}
@@ -86,7 +86,7 @@ const ContentTask = (prop : Prop) => {
             </div>
                 
             {/* icon */}
-            <div className="absolute top-[10px] left-[26px] text-[26px]">
+            <div className="absolute top-[10px] left-[26px] text-[26px] max-md:left-[5px]">
                 <HiOutlineMenuAlt2 />
             </div>
         </div>

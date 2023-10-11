@@ -86,7 +86,7 @@ const PopupEditTask = () => {
         // show when have not the content task  
         if (!toggleShowContent && !taskCurrent.content) {
             content.innerHTML =
-                "<div class='h-[70px] text-[14px] px-[12px] py-[8px] bg-background-box hover:bg-background-box-hover cursor-pointer rounded-[4px]'>Add a more detailed description...</div>";
+                "<div class='whitespace-pre-wrap break-words h-[70px] text-[14px] px-[12px] py-[8px] bg-background-box hover:bg-background-box-hover cursor-pointer rounded-[4px]'>Add a more detailed description...</div>";
         }
 
         // visible when have the size content task greater than 500px
@@ -215,23 +215,28 @@ const PopupEditTask = () => {
 
     return (
         <div className="fixed flex top-0 left-0 right-0 bottom-0 z-[100] overflow-y-auto py-[50px]">
-            <div className="m-auto min-h-full w-[768px] bg-[#323940] rounded-[14px] pb-[30px]">
-                <div className="mx-[56px] my-[8px]">
+            <div className="m-auto min-h-full w-[768px] bg-[#323940] rounded-[14px] max-md:w-[96%]">
+                <div className="mx-[56px] my-[8px] max-md:mx-0">
                     <div className="relative pt-[12px]">
 
                         {/* edit title task */}
-                        <textarea
-                            className="bg-[#323940] relative h-0 text-[17px] leading-[18px] font-medium overflow-y-hidden break-words whitespace-pre-wrap px-[10px] py-[7px] w-full border-[2px] border-transparent focus:border-[2px] focus:border-border-input-color focus:bg-bgColor focus:outline-none resize-none rounded-[6px]"
-                            ref={textareaElementRefTitle}
-                            onInput={resizeTextarea}
-                            onBlur={handleChangeTitleCard}
-                            onChange={(e) => setTitleTask(e.target.value)}
-                            value={titleTask}
-                        >
-                            {titleTask}
-                        </textarea>
+                        <div className="relative">
+                            <div className="absolute top-[6px] left-[-28px] text-[22px] max-md:left-[10px]">
+                                <AiFillCreditCard />
+                            </div>
+                            <textarea
+                                className="bg-[#323940] relative h-0 text-[17px] leading-[18px] font-medium overflow-y-hidden break-words whitespace-pre-wrap px-[10px] py-[7px] w-full border-[2px] border-transparent focus:border-[2px] focus:border-border-input-color focus:bg-bgColor focus:outline-none resize-none rounded-[6px] max-md:ml-[36px] max-md:w-[330px]"
+                                ref={textareaElementRefTitle}
+                                onInput={resizeTextarea}
+                                onBlur={handleChangeTitleCard}
+                                onChange={(e) => setTitleTask(e.target.value)}
+                                value={titleTask}
+                            >
+                                {titleTask}
+                            </textarea>
+                        </div>
 
-                        <div className="flex items-start gap-4 m-[15px]">
+                        <div className="flex items-start gap-4 m-[15px] max-md:m-[10px]">
                             <div className="inline-block">
                                 <p className="text-[12px] pb-[10px]">
                                     Notifications
@@ -261,13 +266,11 @@ const PopupEditTask = () => {
                             
                         </div>
 
-                        <div className="absolute top-[16px] left-[-28px] text-[22px]">
-                            <AiFillCreditCard />
-                        </div>
+                        
 
                         {/*button close edit task */}
                         <div
-                            className="flex m-auto absolute rounded-[3px] cursor-pointer top-[16px] right-[-28px] text-[18px] w-[25px] h-[25px] hover:bg-background-box-hover"
+                            className="flex m-auto absolute rounded-[3px] cursor-pointer top-[16px] right-[-28px] text-[18px] w-[25px] h-[25px] hover:bg-background-box-hover max-md:right-[10px]"
                             onClick={closeEdit}
                         >
                             <AiOutlineClose className="m-auto" />
@@ -276,7 +279,7 @@ const PopupEditTask = () => {
                 </div>
 
                 
-                <div className="flex gap-[20px] justify-between">
+                <div className="flex gap-[20px] justify-between max-md:block">
                     
                     {/* content task */}
                     <ContentTask 
@@ -290,7 +293,7 @@ const PopupEditTask = () => {
                     />
 
                     {/* right bar*/}
-                    <div className=" w-[192px] pr-[16px]">
+                    <div className=" w-[192px] pr-[16px] max-md:pl-[10px] max-md:mt-[10px]">
                         <p className="text-sm">Add to card</p>
                         
                         <div className="relative">
