@@ -53,7 +53,7 @@ const BoardItem = (prop: Prop) => {
 
             {/* visible trello workspace when has star */}
             {board.isStar && star && (
-                <div className=" absolute bottom-[10px] left-[10px] text-[14px] leading-[14px] text-[#e4e4e4]">
+                <div className=" absolute bottom-[10px] left-[10px] text-[14px] leading-[14px] text-[#e4e4e4] ">
                     Trello workspace
                 </div>
             )}
