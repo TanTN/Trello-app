@@ -70,7 +70,7 @@ const PopupEditTask = () => {
         document.addEventListener("mousedown", handleCloseDate)
         return () => document.removeEventListener("mousedown", handleCloseDate)
     },[])
-
+    
     
     useEffect(() => {
         const textarea = textareaElementRefTitle?.current as HTMLTextAreaElement;
@@ -97,7 +97,12 @@ const PopupEditTask = () => {
 
     // reset id task id when closed
     useEffect(() => {
+        const handleDeleteIdTask = () => {
+            dispatch(setIdTaskEdit(undefined));
+        }
+        window.addEventListener("beforeunload", handleDeleteIdTask)
         return () => {
+            window.removeEventListener("beforeunload", handleDeleteIdTask)
             dispatch(setIdTaskEdit(undefined));
         };
     }, []);
