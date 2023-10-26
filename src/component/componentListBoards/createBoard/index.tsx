@@ -95,7 +95,7 @@ const CreateBoard = ({ children, offsetButtonHeader }: { children: ReactElement;
         interactive
         visible={isShowPopup}
         onClickOutside={() => setIsShowPopup(false)}
-        
+
         render={(attrs) => (
             <div
                 className="relative w-[304px] bg-[#282e33] rounded-[8px]"

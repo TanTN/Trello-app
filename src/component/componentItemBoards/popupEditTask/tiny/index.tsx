@@ -30,7 +30,7 @@ const Tiny = (prop: Prop) => {
         <>
             {/* editor content to task */}
             <Editor
-                apiKey="h835x1gqn9kjot71x3lhsm00wri05t63w7owbcfy88bw0f56"
+                            apiKey="h835x1gqn9kjot71x3lhsm00wri05t63w7owbcfy88bw0f56"
                 onEditorChange={(value, editor) => {
                     setValue(value);
                     editor.getContent({ format: "text" })
