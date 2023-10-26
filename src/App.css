@@ -126,7 +126,7 @@
 }
 :where(.css-dev-only-do-not-override-pr0fja).ant-btn-primary:not(:disabled):not(.ant-btn-disabled) {
     color: #fff;
-    background-color: #4096ff90 !important;
+    background-color: #4096ff90 ;
 }
 
 :where(.css-dev-only-do-not-override-pr0fja).ant-picker {

@@ -69,7 +69,7 @@ const CreateBoard = ({ children, offsetButtonHeader }: { children: ReactElement;
 
             } else {
 
-                // have background image
+                // have background imageF
                 const newBoard = {
                     id,
                     title,
@@ -85,7 +85,7 @@ const CreateBoard = ({ children, offsetButtonHeader }: { children: ReactElement;
             navigate(`itemBoard/${id}`);
         }
     };
-    console.log(offsetButtonHeader)
+
     return (
         <Tippy
         delay={[100, 0]}
