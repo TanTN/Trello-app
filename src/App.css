@@ -119,7 +119,7 @@
     background: #292929 ; 
 }
 
-
+/* color button OK hour */
 :where(.css-dev-only-do-not-override-pr0fja).ant-btn-primary:not(:disabled):not(.ant-btn-disabled):hover {
     color: #fff;
     background-color: #4096ff;
@@ -129,10 +129,15 @@
     background-color: #4096ff90 ;
 }
 
+:where(.css-pr0fja).ant-btn.ant-btn-sm {
+    background-color: #4096ff90;
+}
+
 :where(.css-dev-only-do-not-override-pr0fja).ant-picker {
     background-color: #22272B;
-    
 }
+
+/* color text input date */
 :where(.css-dev-only-do-not-override-pr0fja).ant-picker .ant-picker-input >input {
     color: #b6c2cf
 }
